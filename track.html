@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Order - Wood & Whimsy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .tracking-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .tracking-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .tracking-header h1 {
+            color: #2d3748;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tracking-search {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .tracking-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .tracking-input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        .track-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .track-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+        }
+        
+        .order-details {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: none;
+        }
+        
+        .order-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .info-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .info-label {
+            color: #64748b;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-value {
+            color: #1e293b;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .tracking-timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 1rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e2e8f0;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -2.75rem;
+            top: 1.5rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #e2e8f0;
+            z-index: 1;
+        }
+        
+        .timeline-dot.completed {
+            background: #10b981;
+            border-color: #10b981;
+        }
+        
+        .timeline-dot.current {
+            background: #6366f1;
+            border-color: #6366f1;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+        }
+        
+        .timeline-status {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-status.completed {
+            color: #10b981;
+        }
+        
+        .timeline-status.current {
+            color: #6366f1;
+        }
+        
+        .timeline-status.pending {
+            color: #64748b;
+        }
+        
+        .timeline-date {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-description {
+            color: #475569;
+            line-height: 1.6;
+        }
+        
+        .delivery-map {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .interactive-map {
+            background: #f8fafc;
+            height: 400px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .map-controls {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .map-btn {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .map-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+        
+        .map-info {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .info-label {
+            color: #64748b;
+            font-weight: 500;
+        }
+        
+        .map-marker {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #ef4444;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .map-marker:hover {
+            transform: rotate(-45deg) scale(1.2);
+        }
+        
+        .map-marker.workshop {
+            background: #10b981;
+        }
+        
+        .map-marker.delivery {
+            background: #6366f1;
+        }
+        
+        .map-marker.driver {
+            background: #f59e0b;
+            animation: pulse-marker 2s infinite;
+        }
+        
+        @keyframes pulse-marker {
+            0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+        }
+        
+        .delivery-route {
+            position: absolute;
+            height: 3px;
+            background: linear-gradient(90deg, #10b981, #6366f1);
+            border-radius: 2px;
+            opacity: 0.8;
+            z-index: 5;
+        }
+        
+        .route-progress {
+            height: 100%;
+            background: #f59e0b;
+            border-radius: 2px;
+            transition: width 2s ease;
+        }
+        
+        .notification-settings {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .notification-toggle {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background: #cbd5e1;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .toggle-switch.active {
+            background: #6366f1;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+        
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(26px);
+        }
+        
+        .error-message {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #6366f1;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .tracking-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+            
+            .tracking-search {
+                flex-direction: column;
+            }
+            
+            .order-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="tracking-container">
+        <div class="tracking-header">
+            <h1>🚚 Track Your Order</h1>
+            <p>Enter your order number to see real-time tracking information</p>
+        </div>
+        
+        <div class="tracking-search">
+            <input type="text" id="orderInput" class="tracking-input" placeholder="Enter your order number (e.g., WW12345678)">
+            <button id="trackBtn" class="track-btn">Track Order</button>
+        </div>
+        
+        <div id="errorMessage" class="error-message"></div>
+        
+        <div id="orderDetails" class="order-details">
+            <div class="order-info">
+                <div class="info-card">
+                    <div class="info-label">Order Number</div>
+                    <div class="info-value" id="orderNumber">-</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Order Date</div>
+                    <div class="info-value" id="orderDate">-</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Estimated Delivery</div>
+                    <div class="info-value" id="estimatedDelivery">-</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Delivery Address</div>
+                    <div class="info-value" id="deliveryAddress">-</div>
+                </div>
+            </div>
+            
+            <div class="tracking-timeline">
+                <div class="timeline-line"></div>
+                <div id="timelineContainer"></div>
+            </div>
+            
+            <div class="delivery-map">
+                <h3>📍 Delivery Route</h3>
+                <div id="deliveryMap" class="interactive-map"></div>
+                <div class="map-controls">
+                    <button id="centerMapBtn" class="map-btn">📍 Center on Delivery</button>
+                    <button id="showRouteBtn" class="map-btn">🛣️ Show Route</button>
+                    <button id="trackDriverBtn" class="map-btn">🚚 Track Driver</button>
+                </div>
+                <div class="map-info">
+                    <div class="info-item">
+                        <span class="info-label">Distance Remaining:</span>
+                        <span id="distanceRemaining">Calculating...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Estimated Arrival:</span>
+                        <span id="estimatedArrival">Calculating...</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Driver:</span>
+                        <span id="driverName">John Doe</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="notification-settings">
+                <div class="notification-toggle">
+                    <div class="toggle-switch" id="emailToggle">
+                        <div class="toggle-slider"></div>
+                    </div>
+                    <div>
+                        <strong>📧 Email Notifications</strong>
+                        <p style="margin: 0; color: #64748b; font-size: 0.9rem;">Get updates sent to your email</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="track.js"></script>
+</body>
+</html>

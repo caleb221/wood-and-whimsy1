@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account - Wood & Whimsy</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo" onclick="window.location.href='index.html'">
+        <div class="logo-icon">🪵</div>
+        <div class="logo-text">
+          <h2>Wood & Whimsy</h2>
+          <span class="logo-tagline">Furniture & Café</span>
+        </div>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#categories">Furniture</a></li>
+        <li><a href="index.html#cafe">☕ Café</a></li>
+        <li><a href="index.html#products">Products</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-icons">
+        <button class="cart-btn" onclick="window.location.href='index.html'">
+          🛒 <span class="cart-count">0</span>
+        </button>
+        <div id="user-profile" class="user-profile">
+          <img id="user-avatar" class="user-avatar" src="" alt="User Avatar">
+          <span id="user-name" class="user-name"></span>
+          <button id="sign-out-btn" class="sign-out-btn" onclick="signOutUser()">Sign Out</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Account Management Section -->
+  <section class="account-section">
+    <div class="container">
+      <div class="account-header">
+        <h1>My Account</h1>
+        <p>Manage your profile, security, and preferences</p>
+      </div>
+
+      <div class="account-grid">
+        <!-- Profile Section -->
+        <div class="account-card">
+          <div class="card-header">
+            <h3>👤 Profile Information</h3>
+            <p>Update your personal details</p>
+          </div>
+          <div class="card-content">
+            <form id="profile-form">
+              <div class="form-group">
+                <label for="profile-name">Full Name</label>
+                <input type="text" id="profile-name" placeholder="Your full name">
+              </div>
+              <div class="form-group">
+                <label for="profile-email">Email Address</label>
+                <input type="email" id="profile-email" placeholder="your@email.com" readonly>
+                <small>Email cannot be changed for security reasons</small>
+              </div>
+              <div class="form-group">
+                <label for="profile-phone">Phone Number</label>
+                <input type="tel" id="profile-phone" placeholder="+1 (555) 123-4567">
+              </div>
+              <div class="form-group">
+                <label for="profile-address">Address</label>
+                <textarea id="profile-address" rows="3" placeholder="Your address"></textarea>
+              </div>
+              <button type="submit" class="save-btn">Save Changes</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Security Section -->
+        <div class="account-card">
+          <div class="card-header">
+            <h3>🔒 Security Settings</h3>
+            <p>Manage your password and security</p>
+          </div>
+          <div class="card-content">
+            <form id="password-form">
+              <div class="form-group">
+                <label for="current-password">Current Password</label>
+                <input type="password" id="current-password" placeholder="Enter current password">
+              </div>
+              <div class="form-group">
+                <label for="new-password">New Password</label>
+                <input type="password" id="new-password" placeholder="Enter new password">
+              </div>
+              <div class="form-group">
+                <label for="confirm-new-password">Confirm New Password</label>
+                <input type="password" id="confirm-new-password" placeholder="Confirm new password">
+              </div>
+              <button type="submit" class="save-btn">Update Password</button>
+            </form>
+            
+            <div class="security-info">
+              <h4>Security Tips:</h4>
+              <ul>
+                <li>Use at least 8 characters</li>
+                <li>Include uppercase and lowercase letters</li>
+                <li>Add numbers and special characters</li>
+                <li>Don't reuse passwords from other sites</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Methods Section -->
+        <div class="account-card">
+          <div class="card-header">
+            <h3>💳 Payment Methods</h3>
+            <p>Manage your payment options</p>
+          </div>
+          <div class="card-content">
+            <div id="payment-methods" class="payment-methods">
+              <!-- Payment methods will be loaded here -->
+            </div>
+            <button class="add-payment-btn" onclick="openAddPaymentModal()">+ Add Payment Method</button>
+          </div>
+        </div>
+
+        <!-- Order History Section -->
+        <div class="account-card">
+          <div class="card-header">
+            <h3>📦 Order History</h3>
+            <p>View your past orders</p>
+          </div>
+          <div class="card-content">
+            <div id="order-history" class="order-history">
+              <!-- Order history will be loaded here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Preferences Section -->
+        <div class="account-card">
+          <div class="card-header">
+            <h3>⚙️ Preferences</h3>
+            <p>Customize your experience</p>
+          </div>
+          <div class="card-content">
+            <div class="preference-item">
+              <label class="toggle-label">
+                <input type="checkbox" id="email-notifications">
+                <span class="toggle-slider"></span>
+                Email Notifications
+              </label>
+              <p>Receive updates about orders and promotions</p>
+            </div>
+            <div class="preference-item">
+              <label class="toggle-label">
+                <input type="checkbox" id="sms-notifications">
+                <span class="toggle-slider"></span>
+                SMS Notifications
+              </label>
+              <p>Get text messages for order updates</p>
+            </div>
+            <div class="preference-item">
+              <label class="toggle-label">
+                <input type="checkbox" id="marketing-emails">
+                <span class="toggle-slider"></span>
+                Marketing Emails
+              </label>
+              <p>Receive promotional offers and new product announcements</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Account Actions Section -->
+        <div class="account-card danger-zone">
+          <div class="card-header">
+            <h3>⚠️ Account Actions</h3>
+            <p>Manage your account</p>
+          </div>
+          <div class="card-content">
+            <button class="danger-btn" onclick="deleteAccount()">Delete Account</button>
+            <p class="warning-text">This action cannot be undone. All your data will be permanently deleted.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Add Payment Method Modal -->
+  <div id="payment-modal" class="payment-modal" style="display:none;">
+    <div class="payment-modal-content">
+      <button class="modal-close" onclick="closeAddPaymentModal()">&times;</button>
+      <h3>Add Payment Method</h3>
+      <form id="payment-form">
+        <div class="form-group">
+          <label for="card-number">Card Number</label>
+          <input type="text" id="card-number" placeholder="1234 5678 9012 3456" maxlength="19">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="expiry-date">Expiry Date</label>
+            <input type="text" id="expiry-date" placeholder="MM/YY" maxlength="5">
+          </div>
+          <div class="form-group">
+            <label for="cvv">CVV</label>
+            <input type="text" id="cvv" placeholder="123" maxlength="4">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="cardholder-name">Cardholder Name</label>
+          <input type="text" id="cardholder-name" placeholder="Name on card">
+        </div>
+        <div class="form-group">
+          <label for="billing-address">Billing Address</label>
+          <textarea id="billing-address" rows="3" placeholder="Billing address"></textarea>
+        </div>
+        <button type="submit" class="save-btn">Add Payment Method</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="account.js"></script>
+</body>
+</html>

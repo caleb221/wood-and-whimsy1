@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Café Menu - Wood & Whimsy</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo" onclick="window.location.href='index.html'">
+        <div class="logo-icon">🪵</div>
+        <div class="logo-text">
+          <h2>Wood & Whimsy</h2>
+          <span class="logo-tagline">Furniture & Café</span>
+        </div>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#categories">Furniture</a></li>
+        <li><a href="#" class="active">☕ Café</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-icons">
+        <button class="cart-btn" onclick="toggleCart()">
+          🛒 <span class="cart-count">0</span>
+        </button>
+        <button class="cart-btn cafe-cart-btn" onclick="toggleCafeCart()">
+          ☕ <span id="cafe-cart-count" class="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Café Header -->
+  <section class="cafe-hero">
+    <div class="container">
+      <div class="cafe-hero-content">
+        <div class="cafe-badge">
+          <span>☕</span>
+          <span>Wood & Whimsy Café</span>
+        </div>
+        <h1>Fuel Your Furniture Shopping</h1>
+        <p>Discover our carefully crafted menu of artisan coffee, fresh pastries, wholesome meals, and authentic Ghanaian cuisine</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Café Info Cards -->
+  <section class="cafe-info-section">
+    <div class="container">
+      <div class="cafe-info-grid">
+        <div class="cafe-info-card">
+          <div class="cafe-info-icon">🕒</div>
+          <h3>Open Daily</h3>
+          <p>8:00 AM - 6:00 PM</p>
+        </div>
+        <div class="cafe-info-card">
+          <div class="cafe-info-icon">🌱</div>
+          <h3>Sustainable</h3>
+          <p>Locally sourced ingredients</p>
+        </div>
+        <div class="cafe-info-card">
+          <div class="cafe-info-icon">⭐</div>
+          <h3>Rated 4.9/5</h3>
+          <p>By our happy customers</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu Categories -->
+  <section class="menu-categories-section">
+    <div class="container">
+      <div class="menu-categories">
+        <button class="category-btn active" onclick="filterMenuCategory('all')">All Items</button>
+        <button class="category-btn" onclick="filterMenuCategory('coffee')">Coffee & Beverages</button>
+        <button class="category-btn" onclick="filterMenuCategory('pastries')">Pastries & Snacks</button>
+        <button class="category-btn" onclick="filterMenuCategory('meals')">Light Meals</button>
+        <button class="category-btn" onclick="filterMenuCategory('ghanaian')">Ghanaian Cuisine</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu Items -->
+  <section class="cafe-menu-section">
+    <div class="container">
+      <div class="full-menu-grid" id="fullMenuGrid">
+        <!-- Coffee & Beverages -->
+        <div class="menu-item" data-category="coffee">
+          <div class="menu-item-image">
+            <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=300&fit=crop" alt="Artisan Coffee">
+            <div class="menu-badge hot">Hot</div>
+            <div class="menu-rating">⭐ 4.8</div>
+          </div>
+          <div class="menu-item-content">
+            <h3>Artisan Coffee</h3>
+            <p>Freshly roasted single-origin beans with rich, complex flavors</p>
+            <div class="menu-item-footer">
+              <span class="price">$4.50</span>
+              <button class="order-btn" onclick="addToOrder('Artisan Coffee', 4.50, this)">Order Now</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item" data-category="coffee">
+          <div class="menu-item-image">
+            <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=300&fit=crop" alt="Specialty Latte">
+            <div class="menu-badge popular">Popular</div>
+            <div class="menu-rating">⭐ 4.9</div>
+          </div>
+          <div class="menu-item-content">
+            <h3>Specialty Latte</h3>
+            <p>Creamy steamed milk with espresso and your choice of flavor</p>
+            <div class="menu-item-footer">
+              <span class="price">$5.25</span>
+              <button class="order-btn" onclick="addToOrder('Specialty Latte', 5.25, this)">Order Now</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item" data-category="coffee">
+          <div class="menu-item-image">
+            <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=400&h=300&fit=crop" alt="Iced Cold Brew">
+            <div class="menu-badge cold">Cold</div>
+            <div class="menu-rating">⭐ 4.7</div>
+          </div>
+          <div class="menu-item-content">
+            <h3>Iced Cold Brew</h3>
+            <p>Smooth, refreshing cold-brewed coffee served over ice</p>
+            <div class="menu-item-footer">
+              <span class="price">$4.75</span>
+              <button class="order-btn" onclick="addToOrder('Iced Cold Brew', 4.75, this)">Order Now</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pastries & Snacks -->
+        <div class="menu-item" data-category="pastries">
+          <div class="menu-item-image">
+            <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=300&fit=crop" alt="Fresh Croissant">
+            <div class="menu-badge fresh">Fresh</div>
+            <div class="menu-rating">⭐ 4.6</div>
+          </div>
+          <div class="menu-item-content">
+            <h3>Fresh Croissant</h3>
+            <p>Buttery, flaky pastry baked fresh daily</p>
+            <div class="menu-item-footer">
+              <span class="price">$3.25</span>
+              <button class="order-btn" onclick="addToOrder('Fresh Croissant', 3.25, this)">Order Now</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item" data-category="pastries">
+          <div class="menu-item-image">
+            <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=300&fit=crop" alt="Artisan Muffin">
+            <div class="menu-badge popular">Popular</div>
+            <div class="menu-rating">⭐ 4.8</div>
+          </div>
+          <div class="menu-item-content">
+            <h3>Artisan Muffin</h3>
+            <p>Moist, flavorful muffins with seasonal ingredients</p>
+            <div class="menu-item-footer">
+              <span class="price">$3.75</span>
+              <button class="order-btn" onclick="addToOrder('Artisan Muffin', 3.75, this)">Order Now</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Light Meals -->
+        <div class="menu-item" data-category="meals">
+          <div class="menu-item-image">
+            <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400&h=300&fit=crop" alt="Avocado Toast">
+            <div class="menu-badge healthy">Healthy</div>
+            <div class="menu-rating">⭐ 4.9</div>
+          </div>
+          <div class="menu-item-content">
+            <h3>Avocado Toast</h3>
+            <p>Fresh avocado on artisan bread with herbs and seasonings</p>
+            <div class="menu-item-footer">
+              <span class="price">$12.50</span>
+              <button class="order-btn" onclick="addToOrder('Avocado Toast', 12.50, this)">Order Now</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item" data-category="meals">
+          <div class="menu-item-image">
+            <img src="https://images.unsplash.com/photo-1539252554453-80ab65ce3586?w=400&h=300&fit=crop" alt="Signature Sandwich">
+            <div class="menu-badge popular">Popular</div>
+            <div class="menu-rating">⭐ 4.8</div>
+          </div>
+          <div class="menu-item-content">
+            <h3>Signature Sandwich</h3>
+            <p>House-made sandwich with premium ingredients and fresh bread</p>
+            <div class="menu-item-footer">
+              <span class="price">$14.00</span>
+              <button class="order-btn" onclick="addToOrder('Signature Sandwich', 14.00, this)">Order Now</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ghanaian Cuisine -->
+        <div class="menu-item" data-category="ghanaian">
+          <div class="menu-item-image">
+            <img src="jollof rice.jpg" alt="Jollof Rice">
+            <div class="menu-badge authentic">Authentic</div>
+            <div class="menu-rating">⭐ 4.9</div>
+          </div>
+          <div class="menu-item-content">
+            <h3>Jollof Rice</h3>
+            <p>Traditional spiced rice with tomatoes, onions, and aromatic herbs</p>
+            <div class="menu-item-footer">
+              <span class="price">$16.00</span>
+              <button class="order-btn" onclick="addToOrder('Jollof Rice', 16.00, this)">Order Now</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item" data-category="ghanaian">
+          <div class="menu-item-image">
+            <img src="kelewele.jpg" alt="Kelewele">
+            <div class="menu-badge spicy">Spicy</div>
+            <div class="menu-rating">⭐ 4.7</div>
+          </div>
+          <div class="menu-item-content">
+            <h3>Kelewele</h3>
+            <p>Spiced fried plantains with ginger, pepper, and traditional seasonings</p>
+            <div class="menu-item-footer">
+              <span class="price">$8.50</span>
+              <button class="order-btn" onclick="addToOrder('Kelewele', 8.50, this)">Order Now</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item" data-category="ghanaian">
+          <div class="menu-item-image">
+            <img src="BankuTilapia.jpg" alt="Banku with Grilled Tilapia">
+            <div class="menu-badge traditional">Traditional</div>
+            <div class="menu-rating">⭐ 4.8</div>
+          </div>
+          <div class="menu-item-content">
+            <h3>Banku with Grilled Tilapia</h3>
+            <p>Fermented corn and cassava dough with grilled tilapia and pepper sauce</p>
+            <div class="menu-item-footer">
+              <span class="price">$22.00</span>
+              <button class="order-btn" onclick="addToOrder('Banku with Grilled Tilapia', 22.00, this)">Order Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Café Cart Sidebar -->
+  <div id="cafe-cart-sidebar" class="cart-sidebar">
+    <div class="cart-header">
+      <h3>☕ Your Café Order</h3>
+      <button class="close-cart" onclick="toggleCafeCart()">×</button>
+    </div>
+    <div class="cart-items" id="cafe-cart-items">
+      <div class="empty-cart">
+        <p>Your café order is empty</p>
+        <p>Add some delicious items!</p>
+      </div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <strong>Total: $<span id="cafe-cart-total">0</span></strong>
+      </div>
+      <button class="checkout-btn" onclick="proceedToCafeCheckout()">
+        Place Order
+      </button>
+    </div>
+  </div>
+
+  <script src="cafe.js"></script>
+</body>
+</html>

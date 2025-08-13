@@ -1,0 +1,157 @@
+{
+  "categories": [
+    {
+      "name": "Breakfast & Brunch",
+      "items": [
+        {
+          "id": 1,
+          "name": "Artisan Avocado Toast",
+          "price": 12.0,
+          "description": "Fresh avocado on sourdough with poached egg, microgreens, and everything seasoning",
+          "dietary": ["vegetarian"],
+          "popular": true,
+          "image": "/placeholder.svg?height=200&width=200"
+        },
+        {
+          "id": 2,
+          "name": "Furniture Maker's Benedict",
+          "price": 16.5,
+          "description": "House-made English muffin, Canadian bacon, poached eggs, hollandaise, breakfast potatoes",
+          "dietary": [],
+          "signature": true,
+          "image": "/placeholder.svg?height=200&width=200"
+        },
+        {
+          "id": 3,
+          "name": "Overnight Oats Bowl",
+          "price": 9.5,
+          "description": "Steel-cut oats with seasonal berries, honey, toasted almonds, and coconut flakes",
+          "dietary": ["vegetarian", "gluten-free"],
+          "healthy": true,
+          "image": "/placeholder.svg?height=200&width=200"
+        }
+      ]
+    },
+    {
+      "name": "Lunch Favorites",
+      "items": [
+        {
+          "id": 4,
+          "name": "Craftsman's Club",
+          "price": 14.5,
+          "description": "Triple-stacked with turkey, bacon, avocado, lettuce, tomato on artisan bread",
+          "dietary": [],
+          "popular": true,
+          "image": "/placeholder.svg?height=200&width=200"
+        },
+        {
+          "id": 5,
+          "name": "Buddha Bowl",
+          "price": 13.0,
+          "description": "Quinoa, roasted vegetables, chickpeas, tahini dressing, and fresh herbs",
+          "dietary": ["vegan", "gluten-free"],
+          "healthy": true,
+          "image": "/placeholder.svg?height=200&width=200"
+        },
+        {
+          "id": 6,
+          "name": "Wood-Fired Flatbread",
+          "price": 15.0,
+          "description": "Prosciutto, arugula, burrata, balsamic glaze on house-made flatbread",
+          "dietary": [],
+          "signature": true,
+          "image": "/placeholder.svg?height=200&width=200"
+        }
+      ]
+    },
+    {
+      "name": "Artisan Beverages",
+      "items": [
+        {
+          "id": 7,
+          "name": "Signature Blend Coffee",
+          "price": 4.5,
+          "description": "Our house roast with notes of chocolate and caramel",
+          "dietary": [],
+          "popular": true,
+          "image": "/placeholder.svg?height=200&width=200"
+        },
+        {
+          "id": 8,
+          "name": "Matcha Latte Supreme",
+          "price": 5.25,
+          "description": "Premium ceremonial matcha with oat milk and local honey",
+          "dietary": ["vegetarian"],
+          "specialty": true,
+          "image": "/placeholder.svg?height=200&width=200"
+        },
+        {
+          "id": 9,
+          "name": "Cold Brew Float",
+          "price": 6.0,
+          "description": "House cold brew with vanilla bean ice cream and whipped cream",
+          "dietary": ["vegetarian"],
+          "signature": true,
+          "image": "/placeholder.svg?height=200&width=200"
+        }
+      ]
+    },
+    {
+      "name": "Sweet Treats",
+      "items": [
+        {
+          "id": 10,
+          "name": "Artisan Croissant",
+          "price": 4.0,
+          "description": "Buttery, flaky pastry baked fresh daily",
+          "dietary": ["vegetarian"],
+          "image": "/placeholder.svg?height=200&width=200"
+        },
+        {
+          "id": 11,
+          "name": "Seasonal Fruit Tart",
+          "price": 6.5,
+          "description": "Vanilla custard tart topped with fresh seasonal fruits",
+          "dietary": ["vegetarian"],
+          "seasonal": true,
+          "image": "/placeholder.svg?height=200&width=200"
+        },
+        {
+          "id": 12,
+          "name": "Chocolate Chip Cookie",
+          "price": 3.5,
+          "description": "Warm, gooey cookie made with Belgian chocolate chips",
+          "dietary": ["vegetarian"],
+          "popular": true,
+          "image": "/placeholder.svg?height=200&width=200"
+        }
+      ]
+    }
+  ],
+  "dietary_info": {
+    "vegetarian": "Contains no meat or fish",
+    "vegan": "Contains no animal products",
+    "gluten-free": "Made without gluten-containing ingredients"
+  },
+  "cafe_hours": {
+    "monday": "8:00 AM - 6:00 PM",
+    "tuesday": "8:00 AM - 6:00 PM",
+    "wednesday": "8:00 AM - 6:00 PM",
+    "thursday": "8:00 AM - 6:00 PM",
+    "friday": "8:00 AM - 6:00 PM",
+    "saturday": "9:00 AM - 5:00 PM",
+    "sunday": "9:00 AM - 4:00 PM"
+  },
+  "specials": {
+    "happy_hour": {
+      "time": "3:00 PM - 5:00 PM",
+      "discount": "20% off all beverages",
+      "days": ["monday", "tuesday", "wednesday", "thursday", "friday"]
+    },
+    "weekend_brunch": {
+      "time": "9:00 AM - 2:00 PM",
+      "special": "Free coffee refills with any brunch item",
+      "days": ["saturday", "sunday"]
+    }
+  }
+}

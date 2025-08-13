@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details - Wood & Whimsy</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="products.js"></script>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo" onclick="window.location.href='index.html'">
+        <div class="logo-icon">🪵</div>
+        <div class="logo-text">
+          <h2>Wood & Whimsy</h2>
+          <span class="logo-tagline">Furniture & Café</span>
+        </div>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">🛍️ Shop</a></li>
+        <li><a href="track.html">Track Order</a></li>
+      </ul>
+      <div class="nav-icons">
+        <button class="cart-btn" onclick="toggleCart()">
+          🛒 <span class="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-container">
+    <div class="container">
+      <nav class="breadcrumb">
+        <a href="index.html">Home</a> › 
+        <a href="shop.html">Shop</a> › 
+        <span id="breadcrumb-category">Category</span> › 
+        <span id="breadcrumb-product">Product</span>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Product Detail -->
+  <section class="product-detail">
+    <div class="container">
+      <div class="product-detail-grid">
+        <!-- Images -->
+        <div class="product-images">
+          <div class="main-image-container">
+            <img id="main-product-image" src="" alt="Product" class="main-product-image">
+            <button class="wishlist-btn" onclick="toggleWishlist()">♡</button>
+          </div>
+          <div class="thumbnail-grid" id="thumbnail-grid"></div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="product-info">
+          <h1 id="product-name">Product Name</h1>
+          
+          <div class="product-rating">
+            <div class="stars" id="product-stars"></div>
+            <span id="rating-text">(4.8)</span>
+            <span id="review-count">(127 reviews)</span>
+          </div>
+
+          <div class="product-pricing">
+            <span id="current-price" class="current-price">$899.99</span>
+            <span id="original-price" class="original-price">$1,199.99</span>
+            <span id="discount-badge" class="discount-badge">25% OFF</span>
+          </div>
+
+          <div class="product-stock">
+            <span id="stock-status" class="stock-status in-stock">✓ In Stock</span>
+            <span id="stock-count">(8 available)</span>
+          </div>
+
+          <div class="product-description">
+            <p id="product-description-text">Product description...</p>
+          </div>
+
+          <!-- Actions -->
+          <div class="product-actions">
+            <div class="quantity-selector">
+              <label>Quantity:</label>
+              <div class="quantity-controls">
+                <button onclick="updateQuantity(-1)">-</button>
+                <input type="number" id="quantity" value="1" min="1">
+                <button onclick="updateQuantity(1)">+</button>
+              </div>
+            </div>
+            
+            <div class="action-buttons">
+              <button class="add-to-cart-btn" onclick="addToCartFromDetail()">
+                🛒 Add to Cart
+              </button>
+              <button class="buy-now-btn" onclick="buyNow()">Buy Now</button>
+            </div>
+          </div>
+
+          <!-- Features -->
+          <div class="product-features">
+            <h3>Key Features</h3>
+            <ul id="product-features-list"></ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="product-tabs">
+        <div class="tab-navigation">
+          <button class="tab-btn active" onclick="showTab('specifications')">Specifications</button>
+          <button class="tab-btn" onclick="showTab('reviews')">Reviews</button>
+        </div>
+
+        <div class="tab-content">
+          <div id="specifications-tab" class="tab-panel active">
+            <h3>Specifications</h3>
+            <div class="specifications-grid" id="specifications-grid"></div>
+          </div>
+
+          <div id="reviews-tab" class="tab-panel">
+            <h3>Customer Reviews</h3>
+            <div class="reviews-list" id="reviews-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Related Products -->
+      <div class="related-products">
+        <h3>You Might Also Like</h3>
+        <div class="related-products-grid" id="related-products-grid"></div>
+      </div>
+    </div>
+  </section>
+
+  <script src="product-detail.js"></script>
+</body>
+</html>

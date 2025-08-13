@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Help Center - Wood & Whimsy</title>
+<link rel="stylesheet" href="styles.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+    /* Help Center Specific Styles */
+    .help-hero {
+        background: var(--primary-gradient);
+        color: white;
+        padding: 4rem 0;
+        text-align: center;
+        margin-top: 70px;
+    }
+    
+    .help-hero h1 {
+        color: white;
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        background: none;
+        -webkit-text-fill-color: white;
+    }
+    
+    .help-hero p {
+        font-size: 1.25rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    .search-box {
+        max-width: 600px;
+        margin: 3rem auto;
+        display: flex;
+        gap: 0;
+        box-shadow: 0 8px 25px rgba(99, 102, 241, 0.15);
+        border-radius: 50px;
+        overflow: hidden;
+    }
+    
+    .search-box input {
+        flex: 1;
+        padding: 18px 24px;
+        border: none;
+        font-size: 1.1rem;
+        outline: none;
+        background: white;
+    }
+    
+    .search-box button {
+        padding: 18px 32px;
+        border: none;
+        background: var(--accent-gradient);
+        color: white;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .search-box button:hover {
+        transform: scale(1.05);
+    }
+    
+    .help-categories {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .help-category {
+        background: white;
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(99, 102, 241, 0.1);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(99, 102, 241, 0.1);
+    }
+    
+    .help-category:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(99, 102, 241, 0.2);
+    }
+    
+    .help-category-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        display: block;
+    }
+    
+    .help-category h3 {
+        color: var(--primary);
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .help-category p {
+        color: var(--gray-600);
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+    
+    .help-category-link {
+        color: var(--primary);
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+    }
+    
+    .help-category-link:hover {
+        gap: 1rem;
+    }
+    
+    .faq-section {
+        background: var(--accent-bg);
+        padding: 4rem 0;
+        margin: 4rem 0;
+    }
+    
+    .faq-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+    
+    .faq-item {
+        background: white;
+        margin-bottom: 1rem;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(99, 102, 241, 0.1);
+    }
+    
+    .faq-question {
+        padding: 1.5rem 2rem;
+        background: white;
+        border: none;
+        width: 100%;
+        text-align: left;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--gray-800);
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+    
+    .faq-question:hover {
+        background: var(--gray-50);
+    }
+    
+    .faq-answer {
+        padding: 0 2rem 1.5rem;
+        color: var(--gray-600);
+        line-height: 1.7;
+        display: none;
+    }
+    
+    .faq-answer.active {
+        display: block;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .contact-section {
+        background: white;
+        padding: 4rem 0;
+    }
+    
+    .contact-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        text-align: center;
+    }
+    
+    .contact-form {
+        background: var(--accent-bg);
+        padding: 3rem;
+        border-radius: 20px;
+        margin-top: 2rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+        text-align: left;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: var(--gray-700);
+    }
+    
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid var(--gray-300);
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+    }
+    
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+    
+    .form-group textarea {
+        resize: vertical;
+        min-height: 120px;
+    }
+    
+    .submit-btn {
+        background: var(--primary-gradient);
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+    }
+    @media (max-width: 768px) {
+        .help-categories {
+            grid-template-columns: 1fr;
+            padding: 1rem;
+        }
+        
+        .help-hero h1 {
+            font-size: 2rem;
+        }
+        
+        .search-box {
+            margin: 2rem 1rem;
+        }
+        
+        .contact-form {
+            padding: 2rem 1rem;
+        }
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Help Center</h1>
+    <p>Find answers to your questions or contact support</p>
+</header>
+
+<div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search help topics...">
+    <button onclick="searchFAQs()">Search</button>
+</div>
+
+<section class="categories">
+    <div class="category">Account</div>
+    <div class="category">Orders</div>
+    <div class="category">Payments</div>
+    <div class="category">Technical Issues</div>
+</section>
+
+<section class="faq" id="faqList">
+    <div class="faq-item">
+        <strong>How do I reset my password?</strong>
+        <p>Go to account settings and click "Reset Password".</p>
+    </div>
+    <div class="faq-item">
+        <strong>How do I track my order?</strong>
+        <p>You can track your order in the Orders section of your account.</p>
+    </div>
+    <div class="faq-item">
+        <strong>What payment methods do you accept?</strong>
+        <p>We accept credit cards, PayPal, and bank transfers.</p>
+    </div>
+</section>
+
+<section class="contact-form">
+    <h2>Contact Support</h2>
+    <form id="contactForm">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="email" id="email" placeholder="Your Email" required>
+        <textarea id="message" placeholder="Your Message" rows="5" required></textarea>
+        <button type="submit">Send Message</button>
+    </form>
+</section>
+
+<script>
+    function searchFAQs() {
+        let input = document.getElementById('searchInput').value.toLowerCase();
+        let faqs = document.querySelectorAll('.faq-item');
+        faqs.forEach(faq => {
+            let text = faq.innerText.toLowerCase();
+            faq.style.display = text.includes(input) ? 'block' : 'none';
+        });
+    }
+
+    // Firebase contact form (replace with your Firebase config)
+    document.getElementById('contactForm').addEventListener('submit', function(e){
+        e.preventDefault();
+        alert('Message sent to support! (Connect to Firebase here)');
+    });
+</script>
+
+</body>
+</html>

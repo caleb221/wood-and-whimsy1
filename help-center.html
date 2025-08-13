@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center - Wood & Whimsy</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Help Center Specific Styles */
+        .help-hero {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            margin-top: 70px;
+        }
+        
+        .help-hero h1 {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: none;
+            -webkit-text-fill-color: white;
+        }
+        
+        .help-hero p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .search-box {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            gap: 0;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            border-radius: 50px;
+            overflow: hidden;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 18px 24px;
+            border: none;
+            font-size: 1.1rem;
+            outline: none;
+            background: white;
+        }
+        
+        .search-box button {
+            padding: 18px 32px;
+            border: none;
+            background: var(--accent-gradient);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-box button:hover {
+            transform: scale(1.05);
+        }
+        
+        .help-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .help-category {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(99, 102, 241, 0.1);
+        }
+        
+        .help-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.2);
+        }
+        
+        .help-category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .help-category h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .help-category p {
+            color: var(--gray-600);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .help-category-link {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .help-category-link:hover {
+            gap: 1rem;
+        }
+        
+        .faq-section {
+            background: var(--accent-bg);
+            padding: 4rem 0;
+            margin: 4rem 0;
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .faq-item {
+            background: white;
+            margin-bottom: 1rem;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(99, 102, 241, 0.1);
+        }
+        
+        .faq-question {
+            padding: 1.5rem 2rem;
+            background: white;
+            border: none;
+            width: 100%;
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background: var(--gray-50);
+        }
+        
+        .faq-answer {
+            padding: 0 2rem 1.5rem;
+            color: var(--gray-600);
+            line-height: 1.7;
+            display: none;
+        }
+        
+        .faq-answer.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .contact-section {
+            background: white;
+            padding: 4rem 0;
+        }
+        
+        .contact-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+        
+        .contact-form {
+            background: var(--accent-bg);
+            padding: 3rem;
+            border-radius: 20px;
+            margin-top: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--gray-300);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .submit-btn {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+        }
+        
+        .contact-info {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-200);
+        }
+        
+        .contact-info h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .contact-info p {
+            margin-bottom: 0.5rem;
+            color: var(--gray-600);
+        }
+        
+        @media (max-width: 768px) {
+            .help-categories {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+            
+            .help-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .search-box {
+                margin: 2rem 1rem 0;
+            }
+            
+            .contact-form {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-icon">W</div>
+                <h2>Wood & Whimsy</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#categories">Furniture</a></li>
+                <li><a href="index.html#cafe">☕ Café</a></li>
+                <li><a href="index.html#products">Products</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="help-center.html" style="color: var(--primary); font-weight: 600;">Help Center</a></li>
+            </ul>
+            <div class="nav-icons">
+                <button class="search-btn">🔍</button>
+                <button class="cart-btn" onclick="toggleCart()">
+                    🛒 <span class="cart-count">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Help Hero Section -->
+    <section class="help-hero">
+        <div class="container">
+            <h1>🛠️ Help Center</h1>
+            <p>Find answers to your questions about furniture, café services, orders, and more</p>
+            
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search for help topics, FAQs, or guides...">
+                <button onclick="searchFAQs()">🔍 Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Help Categories -->
+    <section class="section">
+        <div class="container">
+            <h2 style="text-align: center; margin-bottom: 3rem;">How can we help you?</h2>
+            
+            <div class="help-categories">
+                <div class="help-category" onclick="showCategory('orders')">
+                    <span class="help-category-icon">📦</span>
+                    <h3>Orders & Shipping</h3>
+                    <p>Track your orders, understand shipping times, delivery options, and order modifications.</p>
+                    <a href="#" class="help-category-link">View Articles →</a>
+                </div>
+                
+                <div class="help-category" onclick="showCategory('returns')">
+                    <span class="help-category-icon">🔄</span>
+                    <h3>Returns & Refunds</h3>
+                    <p>Learn about our return policy, how to return items, and refund processing times.</p>
+                    <a href="#" class="help-category-link">View Articles →</a>
+                </div>
+                
+                <div class="help-category" onclick="showCategory('furniture')">
+                    <span class="help-category-icon">🛋️</span>
+                    <h3>Furniture Care</h3>
+                    <p>Assembly instructions, care guides, warranty information, and maintenance tips.</p>
+                    <a href="#" class="help-category-link">View Articles →</a>
+                </div>
+                
+                <div class="help-category" onclick="showCategory('cafe')">
+                    <span class="help-category-icon">☕</span>
+                    <h3>Café Services</h3>
+                    <p>Menu information, reservations, special events, and café policies.</p>
+                    <a href="#" class="help-category-link">View Articles →</a>
+                </div>
+                
+                <div class="help-category" onclick="showCategory('account')">
+                    <span class="help-category-icon">👤</span>
+                    <h3>Account & Profile</h3>
+                    <p>Manage your account, update profile information, password reset, and preferences.</p>
+                    <a href="#" class="help-category-link">View Articles →</a>
+                </div>
+                
+                <div class="help-category" onclick="showCategory('payment')">
+                    <span class="help-category-icon">💳</span>
+                    <h3>Payment & Billing</h3>
+                    <p>Payment methods, billing questions, invoices, and payment security.</p>
+                    <a href="#" class="help-category-link">View Articles →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="faq-container">
+            <h2 style="text-align: center; margin-bottom: 3rem;">Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    How do I track my furniture order?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    You can track your order by logging into your account and visiting the "My Orders" section. You'll receive a tracking number via email once your order ships. Large furniture items typically take 2-4 weeks for delivery, and you'll be contacted to schedule delivery.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    What is your return policy for furniture?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    We offer a 30-day return policy for all furniture items. Items must be in original condition with original packaging. Due to the size of furniture, return shipping costs may apply. Contact our support team to initiate a return and arrange pickup.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    Do you offer furniture assembly services?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    Yes! We offer professional assembly services for an additional fee. You can add this service during checkout or contact us after your purchase. Our certified technicians will assemble your furniture at your location.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    Can I make reservations at your café?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    Absolutely! You can make café reservations through our website or by calling us directly at (555) 123-4567. We recommend booking in advance, especially for weekends and special events. Walk-ins are welcome based on availability.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    What payment methods do you accept?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    We accept all major credit cards (Visa, MasterCard, American Express), PayPal, Apple Pay, Google Pay, and financing options through our partners. All payments are processed securely with industry-standard encryption.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    Do you offer custom furniture or special orders?
+                    <span>+</span>
+                </button>
+                <div class="faq-answer">
+                    Yes! We work with skilled craftsmen to create custom furniture pieces. Contact our design team to discuss your vision, materials, dimensions, and timeline. Custom orders typically take 6-12 weeks depending on complexity.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Support Section -->
+    <section class="contact-section">
+        <div class="contact-container">
+            <h2>Still need help?</h2>
+            <p>Our support team is here to help you with any questions or concerns.</p>
+            
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" name="category">
+                            <option value="general">General Question</option>
+                            <option value="order">Order Issue</option>
+                            <option value="furniture">Furniture Support</option>
+                            <option value="cafe">Café Inquiry</option>
+                            <option value="technical">Technical Issue</option>
+                            <option value="billing">Billing Question</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="Please describe your question or issue in detail..." required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+            
+            <div class="contact-info">
+                <h3>Other ways to reach us:</h3>
+                <p><strong>📞 Phone:</strong> (233) 256-742-431</p>
+                <p><strong>📧 Email:</strong> support@woodandwhimsy.com</p>
+                <p><strong>🕒 Hours:</strong> Monday-Friday 9AM-6PM, Saturday 10AM-4PM</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <div class="logo-icon">W</div>
+                        <h3>Wood & Whimsy</h3>
+                    </div>
+                    <p>Premium furniture and café experience</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#products">Products</a></li>
+                        <li><a href="index.html#cafe">Café</a></li>
+                        <li><a href="help-center.html">Help Center</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#" onclick="showCategory('orders')">Track Order</a></li>
+                        <li><a href="#" onclick="showCategory('returns')">Returns</a></li>
+                        <li><a href="#" onclick="showCategory('furniture')">Assembly Guide</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function showCategory(category) {
+            const categories = {
+                'orders': 'Orders & Shipping',
+                'returns': 'Returns & Refunds', 
+                'furniture': 'Furniture Care',
+                'cafe': 'Café Services',
+                'account': 'Account & Profile',
+                'payment': 'Payment & Billing'
+            };
+            
+            alert(`Opening ${categories[category]} help section. This would typically navigate to a dedicated help page for ${category}.`);
+        }
+        
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('span');
+            
+            // Close all other FAQs
+            document.querySelectorAll('.faq-answer').forEach(ans => {
+                if (ans !== answer) {
+                    ans.classList.remove('active');
+                }
+            });
+            
+            document.querySelectorAll('.faq-question span').forEach(span => {
+                if (span !== icon) {
+                    span.textContent = '+';
+                }
+            });
+            
+            // Toggle current FAQ
+            answer.classList.toggle('active');
+            icon.textContent = answer.classList.contains('active') ? '−' : '+';
+        }
+        
+        function searchFAQs() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            if (query === '') {
+                faqItems.forEach(item => {
+                    item.style.display = 'block';
+                    item.style.border = 'none';
+                });
+                return;
+            }
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+                
+                if (question.includes(query) || answer.includes(query)) {
+                    item.style.display = 'block';
+                    // Highlight matching FAQ
+                    item.style.border = '2px solid var(--primary)';
+                } else {
+                    item.style.display = 'none';
+                    item.style.border = 'none';
+                }
+            });
+        }
+
+        // Contact form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e){
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            // Simulate form submission
+            alert(`Thank you ${data.name}! Your message has been sent to our support team. We'll respond to ${data.email} within 24 hours.`);
+            
+            // Reset form
+            e.target.reset();
+        });
+
+        // Make cart function available globally
+        window.toggleCart = function() {
+            // This would typically open the cart sidebar
+            alert('Cart functionality - would open cart sidebar');
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop - Wood & Whimsy</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="products.js"></script>
+  <script src="search.js"></script>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo" onclick="window.location.href='index.html'">
+        <div class="logo-icon">🪵</div>
+        <div class="logo-text">
+          <h2>Wood & Whimsy</h2>
+          <span class="logo-tagline">Furniture & Café</span>
+        </div>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#categories">Furniture</a></li>
+        <li><a href="index.html#cafe">☕ Café</a></li>
+        <li><a href="#" class="active">Shop</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+      <div class="nav-icons">
+        <button class="cart-btn" onclick="toggleCart()">
+          🛒 <span class="cart-count">0</span>
+        </button>
+        <button class="cart-btn cafe-cart-btn" onclick="toggleCafeCart()">
+          ☕ <span id="cafe-cart-count" class="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Cart Sidebar -->
+  <div id="cart-sidebar" class="cart-sidebar">
+    <div class="cart-header">
+      <h3>🛒 Your Cart</h3>
+      <button class="close-cart" onclick="toggleCart()">×</button>
+    </div>
+    <div class="cart-items" id="cart-items">
+      <div class="empty-cart">
+        <p>Your cart is empty</p>
+        <p>Add some furniture to get started!</p>
+      </div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <strong>Total: $<span id="cart-total">0</span></strong>
+      </div>
+      <button class="checkout-btn" onclick="window.location.href='checkout.html'">
+        Proceed to Checkout
+      </button>
+    </div>
+  </div>
+
+  <!-- Shop Header -->
+  <section class="shop-hero">
+    <div class="container">
+      <h1>Shop Our Collection</h1>
+      <p>Discover premium furniture pieces that transform your living space</p>
+      
+      <!-- Search and Filter Section -->
+      <div class="search-filter-section">
+        <div class="search-container">
+          <div class="search-box">
+            <input type="text" id="search-input" placeholder="Search furniture, categories, or styles..." />
+            <button class="search-btn" onclick="performSearch()">
+              <span>🔍</span>
+            </button>
+          </div>
+          <div class="search-suggestions" id="search-suggestions"></div>
+        </div>
+        
+        <div class="filter-container">
+          <div class="filter-group">
+            <label>Category:</label>
+            <select id="category-filter" onchange="applyFilters()">
+              <option value="">All Categories</option>
+              <option value="Living Room">Living Room</option>
+              <option value="Bedroom">Bedroom</option>
+              <option value="Dining Room">Dining Room</option>
+              <option value="Office">Office</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label>Price Range:</label>
+            <select id="price-filter" onchange="applyFilters()">
+              <option value="">All Prices</option>
+              <option value="0-300">Under $300</option>
+              <option value="300-600">$300 - $600</option>
+              <option value="600-1000">$600 - $1,000</option>
+              <option value="1000+">$1,000+</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label>Sort By:</label>
+            <select id="sort-filter" onchange="applyFilters()">
+              <option value="featured">Featured</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Highest Rated</option>
+              <option value="newest">Newest</option>
+            </select>
+          </div>
+          
+          <button class="clear-filters-btn" onclick="clearFilters()">Clear All</button>
+        </div>
+        
+        <div class="search-results-info">
+          <span id="results-count">Showing all products</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Grid -->
+  <section class="shop-products">
+    <div class="container">
+      <div class="products-grid" id="shop-products-grid">
+        <!-- All Products -->
+        <div class="product-card" data-id="1" data-category="living-room" data-price="649">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop" alt="Scandinavian Armchair">
+            <div class="product-badge featured">Featured</div>
+            <button class="favorite-btn" onclick="toggleFavorite(1)">♡</button>
+          </div>
+          <div class="product-info">
+            <div class="product-rating">
+              <span class="stars">⭐ 4.9</span>
+              <span class="reviews">(142 reviews)</span>
+            </div>
+            <h3>Scandinavian Armchair</h3>
+            <p>Minimalist design with premium oak wood frame and soft cushioning</p>
+            <div class="product-footer">
+              <div class="price-container">
+                <span class="price">$649</span>
+              </div>
+              <button class="add-to-cart" onclick="addToCart(1)">🛒 Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="2" data-category="bedroom" data-price="1199">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=400&h=300&fit=crop" alt="Modern Wardrobe">
+            <div class="product-badge new">New</div>
+            <button class="favorite-btn" onclick="toggleFavorite(2)">♡</button>
+          </div>
+          <div class="product-info">
+            <div class="product-rating">
+              <span class="stars">⭐ 4.7</span>
+              <span class="reviews">(98 reviews)</span>
+            </div>
+            <h3>Modern Wardrobe</h3>
+            <p>Spacious 3-door wardrobe with mirror and LED lighting</p>
+            <div class="product-footer">
+              <div class="price-container">
+                <span class="price">$1,199</span>
+              </div>
+              <button class="add-to-cart" onclick="addToCart(2)">🛒 Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="3" data-category="living-room" data-price="189">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop" alt="Rustic Side Table">
+            <div class="product-badge sale">Sale</div>
+            <button class="favorite-btn" onclick="toggleFavorite(3)">♡</button>
+          </div>
+          <div class="product-info">
+            <div class="product-rating">
+              <span class="stars">⭐ 4.8</span>
+              <span class="reviews">(76 reviews)</span>
+            </div>
+            <h3>Rustic Side Table</h3>
+            <p>Handcrafted reclaimed wood with industrial metal accents</p>
+            <div class="product-footer">
+              <div class="price-container">
+                <span class="price">$189</span>
+                <span class="original-price">$249</span>
+              </div>
+              <button class="add-to-cart" onclick="addToCart(3)">🛒 Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="4" data-category="living-room" data-price="299">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=400&h=300&fit=crop" alt="Velvet Ottoman">
+            <button class="favorite-btn" onclick="toggleFavorite(4)">♡</button>
+          </div>
+          <div class="product-info">
+            <div class="product-rating">
+              <span class="stars">⭐ 4.6</span>
+              <span class="reviews">(134 reviews)</span>
+            </div>
+            <h3>Velvet Ottoman</h3>
+            <p>Luxurious round ottoman with hidden storage compartment</p>
+            <div class="product-footer">
+              <div class="price-container">
+                <span class="price">$299</span>
+              </div>
+              <button class="add-to-cart" onclick="addToCart(4)">🛒 Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="5" data-category="office" data-price="599">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop" alt="Standing Desk">
+            <div class="product-badge trending">Trending</div>
+            <button class="favorite-btn" onclick="toggleFavorite(5)">♡</button>
+          </div>
+          <div class="product-info">
+            <div class="product-rating">
+              <span class="stars">⭐ 4.9</span>
+              <span class="reviews">(201 reviews)</span>
+            </div>
+            <h3>Adjustable Standing Desk</h3>
+            <p>Electric height-adjustable desk for healthy workspace</p>
+            <div class="product-footer">
+              <div class="price-container">
+                <span class="price">$599</span>
+              </div>
+              <button class="add-to-cart" onclick="addToCart(5)">🛒 Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="6" data-category="bedroom" data-price="159">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop" alt="Floating Nightstand">
+            <button class="favorite-btn" onclick="toggleFavorite(6)">♡</button>
+          </div>
+          <div class="product-info">
+            <div class="product-rating">
+              <span class="stars">⭐ 4.5</span>
+              <span class="reviews">(67 reviews)</span>
+            </div>
+            <h3>Floating Nightstand</h3>
+            <p>Space-saving wall-mounted nightstand with drawer</p>
+            <div class="product-footer">
+              <div class="price-container">
+                <span class="price">$159</span>
+              </div>
+              <button class="add-to-cart" onclick="addToCart(6)">🛒 Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Products -->
+        <div class="product-card" data-id="13" data-category="dining" data-price="899">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1549497538-303791108f95?w=400&h=300&fit=crop" alt="Dining Table">
+            <button class="favorite-btn" onclick="toggleFavorite(13)">♡</button>
+          </div>
+          <div class="product-info">
+            <div class="product-rating">
+              <span class="stars">⭐ 4.8</span>
+              <span class="reviews">(89 reviews)</span>
+            </div>
+            <h3>Solid Wood Dining Table</h3>
+            <p>Handcrafted oak dining table seats up to 6 people</p>
+            <div class="product-footer">
+              <div class="price-container">
+                <span class="price">$899</span>
+              </div>
+              <button class="add-to-cart" onclick="addToCart(13)">🛒 Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="14" data-category="living-room" data-price="1299">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop" alt="Sectional Sofa">
+            <div class="product-badge premium">Premium</div>
+            <button class="favorite-btn" onclick="toggleFavorite(14)">♡</button>
+          </div>
+          <div class="product-info">
+            <div class="product-rating">
+              <span class="stars">⭐ 4.9</span>
+              <span class="reviews">(156 reviews)</span>
+            </div>
+            <h3>L-Shaped Sectional Sofa</h3>
+            <p>Comfortable sectional with premium fabric and deep seating</p>
+            <div class="product-footer">
+              <div class="price-container">
+                <span class="price">$1,299</span>
+              </div>
+              <button class="add-to-cart" onclick="addToCart(14)">🛒 Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="15" data-category="office" data-price="399">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1541558869434-2840d308329a?w=400&h=300&fit=crop" alt="Office Chair">
+            <button class="favorite-btn" onclick="toggleFavorite(15)">♡</button>
+          </div>
+          <div class="product-info">
+            <div class="product-rating">
+              <span class="stars">⭐ 4.7</span>
+              <span class="reviews">(203 reviews)</span>
+            </div>
+            <h3>Ergonomic Office Chair</h3>
+            <p>Adjustable height with lumbar support and breathable mesh</p>
+            <div class="product-footer">
+              <div class="price-container">
+                <span class="price">$399</span>
+              </div>
+              <button class="add-to-cart" onclick="addToCart(15)">🛒 Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Products from Main Page -->
+        <div class="product-card" data-id="7" data-category="living-room" data-price="649">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop" alt="Scandinavian Armchair" onerror="this.src='placeholder.jpg'">
+            <div class="product-badge featured">Featured</div>
+            <button class="favorite-btn" onclick="toggleFavorite(7)">♡</button>
+          </div>
+          <div class="product-info">
+            <div class="product-rating">
+              <span class="stars">⭐ 4.9</span>
+              <span class="reviews">(142 reviews)</span>
+            </div>
+            <h3>Scandinavian Armchair</h3>
+            <p>Minimalist design with premium oak wood frame and soft cushioning</p>
+            <div class="product-footer">
+              <div class="price-container">
+                <span class="price">$649</span>
+              </div>
+              <button class="add-to-cart" onclick="addToCart(7)">🛒 Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="9" data-category="living-room" data-price="189">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop" alt="Rustic Side Table" onerror="this.src='placeholder.jpg'">
+            <div class="product-badge sale">Sale</div>
+            <button class="favorite-btn" onclick="toggleFavorite(9)">♡</button>
+          </div>
+          <div class="product-info">
+            <div class="product-rating">
+              <span class="stars">⭐ 4.8</span>
+              <span class="reviews">(76 reviews)</span>
+            </div>
+            <h3>Rustic Side Table</h3>
+            <p>Handcrafted reclaimed wood with industrial metal accents</p>
+            <div class="product-footer">
+              <div class="price-container">
+                <span class="price">$189</span>
+                <span class="original-price">$249</span>
+              </div>
+              <button class="add-to-cart" onclick="addToCart(9)">🛒 Add to Cart</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="11" data-category="office" data-price="599">
+          <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop" alt="Standing Desk" onerror="this.src='placeholder.jpg'">
+            <div class="product-badge trending">Trending</div>
+            <button class="favorite-btn" onclick="toggleFavorite(11)">♡</button>
+          </div>
+          <div class="product-info">
+            <div class="product-rating">
+              <span class="stars">⭐ 4.9</span>
+              <span class="reviews">(201 reviews)</span>
+            </div>
+            <h3>Adjustable Standing Desk</h3>
+            <p>Electric height-adjustable desk for healthy workspace</p>
+            <div class="product-footer">
+              <div class="price-container">
+                <span class="price">$599</span>
+              </div>
+              <button class="add-to-cart" onclick="addToCart(11)">🛒 Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Shop filtering functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const categoryFilter = document.getElementById('category-filter');
+      const priceFilter = document.getElementById('price-filter');
+      const sortFilter = document.getElementById('sort-filter');
+      const productsGrid = document.getElementById('shop-products-grid');
+
+      function filterProducts() {
+        const category = categoryFilter.value;
+        const priceRange = priceFilter.value;
+        const sortBy = sortFilter.value;
+        
+        const products = Array.from(productsGrid.children);
+        
+        // Filter products
+        products.forEach(product => {
+          let show = true;
+          
+          // Category filter
+          if (category !== 'all' && !product.dataset.category.includes(category)) {
+            show = false;
+          }
+          
+          // Price filter
+          if (priceRange !== 'all') {
+            const price = parseInt(product.dataset.price);
+            switch(priceRange) {
+              case '0-200':
+                if (price >= 200) show = false;
+                break;
+              case '200-500':
+                if (price < 200 || price >= 500) show = false;
+                break;
+              case '500-1000':
+                if (price < 500 || price >= 1000) show = false;
+                break;
+              case '1000+':
+                if (price < 1000) show = false;
+                break;
+            }
+          }
+          
+          product.style.display = show ? 'block' : 'none';
+        });
+        
+        // Sort products
+        const visibleProducts = products.filter(p => p.style.display !== 'none');
+        visibleProducts.sort((a, b) => {
+          switch(sortBy) {
+            case 'price-low':
+              return parseInt(a.dataset.price) - parseInt(b.dataset.price);
+            case 'price-high':
+              return parseInt(b.dataset.price) - parseInt(a.dataset.price);
+            case 'rating':
+              const ratingA = parseFloat(a.querySelector('.stars').textContent.split(' ')[1]);
+              const ratingB = parseFloat(b.querySelector('.stars').textContent.split(' ')[1]);
+              return ratingB - ratingA;
+            default:
+              return 0;
+          }
+        });
+        
+        // Reorder in DOM
+        visibleProducts.forEach(product => {
+          productsGrid.appendChild(product);
+        });
+      }
+
+      categoryFilter.addEventListener('change', filterProducts);
+      priceFilter.addEventListener('change', filterProducts);
+      sortFilter.addEventListener('change', filterProducts);
+    });
+
+    // Cart functionality
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    // Product data for shop items
+    const products = {
+      1: { name: 'Scandinavian Armchair', price: 649, image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop' },
+      2: { name: 'Modern Sofa', price: 1299, image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop' },
+      3: { name: 'Oak Dining Table', price: 899, image: 'https://images.unsplash.com/photo-1449247709967-d4461a6a6103?w=400&h=300&fit=crop' },
+      4: { name: 'Leather Recliner', price: 1199, image: 'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=400&h=300&fit=crop' },
+      5: { name: 'Adjustable Standing Desk', price: 599, image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop' },
+      6: { name: 'Bookshelf Unit', price: 449, image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop' },
+      7: { name: 'Scandinavian Armchair', price: 649, image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop' },
+      9: { name: 'Rustic Side Table', price: 189, image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop' },
+      11: { name: 'Adjustable Standing Desk', price: 599, image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop' },
+      13: { name: 'Vintage Dresser', price: 749, image: 'https://images.unsplash.com/photo-1549497538-303791108f95?w=400&h=300&fit=crop' },
+      14: { name: 'Coffee Table', price: 329, image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=400&h=300&fit=crop' },
+      15: { name: 'Ergonomic Office Chair', price: 399, image: 'https://images.unsplash.com/photo-1541558869434-2840d308329a?w=400&h=300&fit=crop' }
+    };
+
+    function addToCart(productId) {
+      console.log('Adding to cart, productId:', productId);
+      
+      const product = products[productId];
+      if (!product) {
+        console.error('Product not found:', productId);
+        showNotification('Product not found. Please try again.', 'error');
+        return;
+      }
+
+      const existingItem = cart.find(item => item.id === productId);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({
+          id: productId,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          quantity: 1
+        });
+      }
+
+      updateCartDisplay();
+      saveCartToLocalStorage();
+      showNotification(`${product.name} added to cart!`, 'success');
+    }
+
+    function removeFromCart(productId) {
+      cart = cart.filter(item => item.id !== productId);
+      updateCartDisplay();
+      saveCartToLocalStorage();
+    }
+
+    function updateQuantity(productId, newQuantity) {
+      const item = cart.find(item => item.id === productId);
+      if (item) {
+        if (newQuantity <= 0) {
+          removeFromCart(productId);
+        } else {
+          item.quantity = newQuantity;
+          updateCartDisplay();
+          saveCartToLocalStorage();
+        }
+      }
+    }
+
+    function updateCartDisplay() {
+      const cartItems = document.getElementById('cart-items');
+      const cartCount = document.querySelector('.cart-count');
+      const cartTotal = document.getElementById('cart-total');
+
+      if (cart.length === 0) {
+        cartItems.innerHTML = `
+          <div class="empty-cart">
+            <p>Your cart is empty</p>
+            <p>Add some furniture to get started!</p>
+          </div>
+        `;
+        if (cartCount) cartCount.textContent = '0';
+        if (cartTotal) cartTotal.textContent = '0';
+        return;
+      }
+
+      let total = 0;
+      let totalItems = 0;
+
+      cartItems.innerHTML = cart.map(item => {
+        total += item.price * item.quantity;
+        totalItems += item.quantity;
+        
+        return `
+          <div class="cart-item">
+            <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+            <div class="cart-item-details">
+              <h4>${item.name}</h4>
+              <p class="cart-item-price">$${item.price}</p>
+              <div class="quantity-controls">
+                <button onclick="updateQuantity(${item.id}, ${item.quantity - 1})">-</button>
+                <span>${item.quantity}</span>
+                <button onclick="updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
+              </div>
+            </div>
+            <button class="remove-item" onclick="removeFromCart(${item.id})">×</button>
+          </div>
+        `;
+      }).join('');
+
+      if (cartCount) cartCount.textContent = totalItems;
+      if (cartTotal) cartTotal.textContent = total;
+    }
+
+    function saveCartToLocalStorage() {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    function toggleCart() {
+      const cartSidebar = document.getElementById('cart-sidebar');
+      cartSidebar.classList.toggle('active');
+    }
+
+    function toggleFavorite(productId) {
+      console.log('Toggling favorite for product', productId);
+      // Add your favorite logic here
+    }
+
+    function toggleCafeCart() {
+      console.log('Toggle cafe cart');
+      // Redirect to main page cafe section
+      window.location.href = 'index.html#cafe';
+    }
+
+    function showNotification(message, type = 'info') {
+      const notification = document.createElement('div');
+      notification.className = `notification ${type}`;
+      notification.textContent = message;
+      
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        z-index: 10000;
+        font-weight: 500;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      `;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.remove();
+      }, 3000);
+    }
+
+    // Initialize cart display on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      updateCartDisplay();
+    });
+  </script>
+
+  <style>
+    /* Shop Header - Mobile First */
+    .shop-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 4rem 1rem 3rem;
+      margin-top: 70px;
+    }
+
+    .shop-hero h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .shop-hero p {
+      font-size: 1rem;
+      text-align: center;
+      opacity: 0.9;
+      max-width: 100%;
+      margin: 0 auto 2rem;
+      line-height: 1.6;
+      padding: 0 1rem;
+    }
+
+    /* Filters - Mobile First */
+    .shop-filters {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1.5rem 1rem;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      margin: 0 1rem;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .filter-group label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      min-width: 80px;
+    }
+
+    .filter-group select {
+      padding: 0.75rem 1rem;
+      border: none;
+      border-radius: 8px;
+      background: white;
+      color: #333;
+      font-size: 0.9rem;
+      min-width: 140px;
+      flex: 1;
+      max-width: 200px;
+    }
+
+    /* Products Section - Mobile First */
+    .shop-products {
+      padding: 3rem 1rem;
+    }
+
+    .nav-menu .active {
+      color: #6366f1;
+      font-weight: 600;
+    }
+
+    /* Navigation Responsive */
+    .nav-container {
+      padding: 0 1rem;
+    }
+
+    .nav-menu {
+      display: none;
+    }
+
+    .hamburger {
+      display: flex;
+    }
+
+    /* Shop page specific product image sizing */
+    .shop-products .product-card {
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    .shop-products .product-image {
+      height: 220px;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+
+    .shop-products .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .shop-products .product-card:hover .product-image img {
+      transform: scale(1.05);
+    }
+
+    .shop-products .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Tablet Styles - 768px and up */
+    @media (min-width: 768px) {
+      .shop-header {
+        padding: 5rem 2rem 4rem;
+        margin-top: 80px;
+      }
+
+      .shop-hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .shop-hero p {
+        font-size: 1.1rem;
+        max-width: 600px;
+        margin: 0 auto 2.5rem;
+        padding: 0;
+      }
+
+      .shop-filters {
+        flex-direction: row;
+        gap: 1.5rem;
+        justify-content: center;
+        padding: 2rem;
+        margin: 0 2rem;
+      }
+
+      .filter-group {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        min-width: 160px;
+      }
+
+      .filter-group label {
+        margin-bottom: 0.5rem;
+        min-width: auto;
+      }
+
+      .filter-group select {
+        width: 100%;
+        min-width: 160px;
+        max-width: none;
+      }
+
+      .shop-products {
+        padding: 4rem 2rem;
+      }
+
+      .shop-products .products-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      .shop-products .product-card {
+        max-width: 350px;
+      }
+
+      .shop-products .product-image {
+        height: 240px;
+      }
+
+      /* Show navigation menu on tablet+ */
+      .nav-menu {
+        display: flex !important;
+      }
+
+      .hamburger {
+        display: none !important;
+      }
+
+      .nav-container {
+        padding: 0 2rem;
+      }
+    }
+
+    /* Desktop Styles - 1024px and up */
+    @media (min-width: 1024px) {
+      .shop-header {
+        padding: 6rem 0 4rem;
+      }
+
+      .shop-hero h1 {
+        font-size: 3rem;
+      }
+
+      .shop-hero p {
+        font-size: 1.2rem;
+        margin: 0 auto 3rem;
+      }
+
+      .shop-filters {
+        gap: 2rem;
+        padding: 2.5rem;
+        margin: 0;
+      }
+
+      .filter-group {
+        min-width: 180px;
+      }
+
+      .filter-group select {
+        min-width: 180px;
+      }
+
+      .shop-products {
+        padding: 5rem 0;
+      }
+
+      .shop-products .products-grid {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2.5rem;
+      }
+
+      .shop-products .product-card {
+        max-width: 380px;
+      }
+
+      .shop-products .product-image {
+        height: 260px;
+      }
+    }
+
+    /* Large Desktop Styles - 1200px and up */
+    @media (min-width: 1200px) {
+      .shop-products .products-grid {
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .shop-products .product-card {
+        max-width: 100%;
+      }
+    }
+
+    /* Mobile Specific Adjustments */
+    @media (max-width: 767px) {
+      .shop-products .products-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .shop-products .product-card {
+        max-width: 100%;
+      }
+
+      .shop-products .product-image {
+        height: 200px;
+      }
+    }
+
+    /* Small Mobile - 480px and below */
+    @media (max-width: 480px) {
+      .shop-header {
+        padding: 3rem 0.5rem 2.5rem;
+      }
+
+      .shop-hero h1 {
+        font-size: 1.75rem;
+      }
+
+      .shop-hero p {
+        font-size: 0.95rem;
+        padding: 0 0.5rem;
+      }
+
+      .shop-filters {
+        margin: 0 0.5rem;
+        padding: 1rem;
+      }
+
+      .filter-group label {
+        font-size: 0.85rem;
+        min-width: 70px;
+      }
+
+      .filter-group select {
+        font-size: 0.85rem;
+        padding: 0.6rem 0.8rem;
+        min-width: 120px;
+      }
+
+      .shop-products {
+        padding: 2.5rem 0.5rem;
+      }
+
+      .shop-products .products-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .shop-products .product-image {
+        height: 180px;
+      }
+
+      .nav-container {
+        padding: 0 0.5rem;
+      }
+    }
+
+    /* Cart Sidebar Styles */
+    .cart-sidebar {
+      position: fixed;
+      top: 0;
+      right: -400px;
+      width: 400px;
+      height: 100vh;
+      background: white;
+      box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+      transition: right 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-sidebar.active {
+      right: 0;
+    }
+
+    .cart-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f9fafb;
+    }
+
+    .cart-header h3 {
+      margin: 0;
+      color: #1f2937;
+      font-size: 1.25rem;
+    }
+
+    .close-cart {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #6b7280;
+      padding: 0.25rem;
+      border-radius: 4px;
+      transition: background-color 0.2s;
+    }
+
+    .close-cart:hover {
+      background: #e5e7eb;
+    }
+
+    .cart-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+    }
+
+    .empty-cart {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #6b7280;
+    }
+
+    .empty-cart p {
+      margin: 0.5rem 0;
+    }
+
+    .cart-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem;
+      border-bottom: 1px solid #f3f4f6;
+      align-items: center;
+    }
+
+    .cart-item-image {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .cart-item-details {
+      flex: 1;
+    }
+
+    .cart-item-details h4 {
+      margin: 0 0 0.25rem 0;
+      font-size: 0.9rem;
+      color: #1f2937;
+    }
+
+    .cart-item-price {
+      margin: 0 0 0.5rem 0;
+      font-weight: 600;
+      color: #059669;
+    }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .quantity-controls button {
+      width: 28px;
+      height: 28px;
+      border: 1px solid #d1d5db;
+      background: white;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .quantity-controls button:hover {
+      background: #f3f4f6;
+      border-color: #9ca3af;
+    }
+
+    .quantity-controls span {
+      min-width: 20px;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .remove-item {
+      background: #fee2e2;
+      border: 1px solid #fecaca;
+      color: #dc2626;
+      width: 28px;
+      height: 28px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .remove-item:hover {
+      background: #fecaca;
+      border-color: #f87171;
+    }
+
+    .cart-footer {
+      padding: 1.5rem;
+      border-top: 1px solid #e5e7eb;
+      background: #f9fafb;
+    }
+
+    .cart-total {
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      text-align: center;
+      color: #1f2937;
+    }
+
+    .checkout-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #059669, #10b981);
+      color: white;
+      border: none;
+      padding: 0.875rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .checkout-btn:hover {
+      background: linear-gradient(135deg, #047857, #059669);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+    }
+
+    .checkout-btn:disabled {
+      background: #d1d5db;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Mobile Cart Sidebar */
+    @media (max-width: 768px) {
+      .cart-sidebar {
+        width: 100%;
+        right: -100%;
+      }
+
+      .cart-sidebar.active {
+        right: 0;
+      }
+    }
+
+    /* Cart Overlay */
+    .cart-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .cart-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+  </style>
+
+  <!-- Cart Sidebar -->
+  <div id="cart-sidebar" class="cart-sidebar">
+    <div class="cart-header">
+      <h3>Shopping Cart</h3>
+      <button class="close-cart" onclick="toggleCart()">&times;</button>
+    </div>
+    <div class="cart-content">
+      <div id="cart-items" class="cart-items">
+        <!-- Cart items will be populated by JavaScript -->
+      </div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <strong>Total: $<span id="cart-total">0.00</span></strong>
+      </div>
+      <button class="checkout-btn" onclick="window.location.href='checkout.html'">
+        Proceed to Checkout
+      </button>
+    </div>
+  </div>
+
+  <!-- Cart Overlay -->
+  <div id="cart-overlay" class="cart-overlay" onclick="toggleCart()"></div>
+
+  <style>
+    /* Cart Sidebar Styles */
+    .cart-sidebar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 400px;
+      height: 100vh;
+      background: white;
+      box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-sidebar.open {
+      transform: translateX(0);
+    }
+
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem;
+      border-bottom: 1px solid #e5e7eb;
+      background: #f9fafb;
+    }
+
+    .cart-header h3 {
+      margin: 0;
+      color: #1f2937;
+      font-size: 1.25rem;
+    }
+
+    .close-cart {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #6b7280;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+
+    .close-cart:hover {
+      background: #e5e7eb;
+      color: #1f2937;
+    }
+
+    .cart-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+    }
+
+    .cart-items {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .cart-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      position: relative;
+    }
+
+    .cart-item-image {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .cart-item-info {
+      flex: 1;
+    }
+
+    .cart-item-info h4 {
+      margin: 0 0 0.5rem 0;
+      font-size: 0.9rem;
+      color: #1f2937;
+    }
+
+    .cart-item-price {
+      font-weight: 600;
+      color: #10b981;
+      margin-bottom: 0.5rem;
+    }
+
+    .cart-item-quantity {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .cart-item-quantity button {
+      background: #f3f4f6;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cart-item-quantity button:hover {
+      background: #e5e7eb;
+    }
+
+    .cart-item-quantity span {
+      min-width: 20px;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .remove-item {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .remove-item:hover {
+      background: #dc2626;
+    }
+
+    .empty-cart {
+      text-align: center;
+      padding: 2rem;
+      color: #6b7280;
+    }
+
+    .cart-footer {
+      padding: 1.5rem;
+      border-top: 1px solid #e5e7eb;
+      background: #f9fafb;
+    }
+
+    .cart-total {
+      margin-bottom: 1rem;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .checkout-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .checkout-btn:hover {
+      background: linear-gradient(135deg, #059669, #047857);
+      transform: translateY(-1px);
+    }
+
+    .cart-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 999;
+    }
+
+    .cart-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 480px) {
+      .cart-sidebar {
+        width: 100%;
+      }
+    }
+  </style>
+</body>
+</html>
