@@ -1,9 +1,4 @@
-// Import Firebase modules
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-// Your web app's Firebase configuration
+// Firebase configuration and initialization using compat mode for better compatibility
 const firebaseConfig = {
   apiKey: "AIzaSyAVTV34a0jw5ScKywj-YXy5bt9FG01JBn0",
   authDomain: "wood12-f40fe.firebaseapp.com",
@@ -13,14 +8,29 @@ const firebaseConfig = {
   appId: "1:522201725736:web:78d597f9d5da25c1dbee1d"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const googleProvider = new GoogleAuthProvider();
+// Initialize Firebase using compat mode with error handling
+try {
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+    console.log('Firebase initialized successfully');
+  }
+} catch (error) {
+  console.error('Firebase initialization error:', error);
+}
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// Configure Google provider globally with enhanced settings
+const googleProvider = new firebase.auth.GoogleAuthProvider();
+googleProvider.addScope('email');
+googleProvider.addScope('profile');
+googleProvider.setCustomParameters({
+  'prompt': 'select_account',
+  'access_type': 'offline'
+});
 
 // Test Firebase connection
-console.log('Firebase app initialized:', app);
 console.log('Firebase auth initialized:', auth);
 console.log('Current auth state:', auth.currentUser);
 
@@ -41,7 +51,7 @@ let isSignUp = false;
 let isLoading = false;
 
 // Authentication state observer (removed automatic redirect)
-onAuthStateChanged(auth, (user) => {
+auth.onAuthStateChanged((user) => {
   console.log('Auth state changed in auth.js:', user ? 'User signed in' : 'User signed out');
   // Note: Redirect is handled by individual sign-in functions, not here
   // This prevents infinite redirect loops on the main page
@@ -51,20 +61,20 @@ onAuthStateChanged(auth, (user) => {
 async function createUserProfile(user, additionalData = {}) {
   if (!user) return;
   
-  const userRef = doc(db, 'users', user.uid);
-  const userSnap = await getDoc(userRef);
+  const userRef = db.collection('users').doc(user.uid);
+  const userSnap = await userRef.get();
   
   if (!userSnap.exists()) {
     const { displayName, email, photoURL } = user;
-    const createdAt = serverTimestamp();
+    const createdAt = firebase.firestore.FieldValue.serverTimestamp();
     
     try {
-      await setDoc(userRef, {
+      await userRef.set({
         displayName,
         email,
         photoURL,
         createdAt,
-        lastLoginAt: serverTimestamp(),
+        lastLoginAt: firebase.firestore.FieldValue.serverTimestamp(),
         ...additionalData
       });
       console.log('User profile created in Firestore');
@@ -74,8 +84,8 @@ async function createUserProfile(user, additionalData = {}) {
   } else {
     // Update last login time
     try {
-      await updateDoc(userRef, {
-        lastLoginAt: serverTimestamp()
+      await userRef.update({
+        lastLoginAt: firebase.firestore.FieldValue.serverTimestamp()
       });
       console.log('User last login updated');
     } catch (error) {
@@ -88,7 +98,17 @@ async function createUserProfile(user, additionalData = {}) {
 async function signInWithGoogle() {
   try {
     setLoading(true);
-    const result = await signInWithPopup(auth, googleProvider);
+    
+    // Verify Firebase is ready
+    if (!auth) {
+      throw new Error('Firebase auth not initialized');
+    }
+    
+    console.log('Starting Google sign-in...');
+    console.log('Auth domain:', firebaseConfig.authDomain);
+    console.log('Current origin:', window.location.origin);
+    
+    const result = await auth.signInWithPopup(googleProvider);
     
     // Create user profile in Firestore
     await createUserProfile(result.user);
@@ -99,7 +119,24 @@ async function signInWithGoogle() {
     }, 1500);
   } catch (error) {
     console.error('Google sign-in error:', error);
-    showError('Google sign-in failed. Please try again.');
+    console.error('Error code:', error.code);
+    console.error('Error message:', error.message);
+    console.error('Full error object:', error);
+    
+    let errorMessage = 'Google sign-in failed. Please try again.';
+    
+    if (error.code === 'auth/internal-error') {
+      errorMessage = 'Firebase configuration error. Please check your project settings.';
+      console.error('Internal error details - this usually indicates a Firebase project configuration issue');
+    } else if (error.code === 'auth/popup-closed-by-user') {
+      errorMessage = 'Sign-in popup was closed. Please try again.';
+    } else if (error.code === 'auth/popup-blocked') {
+      errorMessage = 'Popup was blocked. Please allow popups and try again.';
+    } else if (error.code === 'auth/unauthorized-domain') {
+      errorMessage = 'This domain is not authorized for Google sign-in.';
+    }
+    
+    showError(errorMessage);
   } finally {
     setLoading(false);
   }
@@ -109,7 +146,7 @@ async function signInWithGoogle() {
 async function signInWithEmail(email, password) {
   try {
     setLoading(true);
-    const result = await signInWithEmailAndPassword(auth, email, password);
+    const result = await auth.signInWithEmailAndPassword(email, password);
     
     // Update user profile in Firestore
     await createUserProfile(result.user);
@@ -136,8 +173,8 @@ async function signInWithEmail(email, password) {
 async function signUpWithEmail(email, password, displayName) {
   try {
     setLoading(true);
-    const result = await createUserWithEmailAndPassword(auth, email, password);
-    await updateProfile(result.user, { displayName });
+    const result = await auth.createUserWithEmailAndPassword(email, password);
+    await result.user.updateProfile({ displayName });
     
     // Create user profile in Firestore
     await createUserProfile(result.user, { signUpMethod: 'email' });
@@ -160,9 +197,48 @@ async function signUpWithEmail(email, password, displayName) {
   }
 }
 
-// Apple Sign In (placeholder - requires Apple Developer account)
-function signInWithApple() {
-  showError('Apple Sign In requires Apple Developer account setup. Please use Google or email sign-in for now.');
+// Apple Sign In
+async function signInWithApple() {
+  try {
+    setLoading(true);
+    
+    // Check if Apple Sign-In is configured
+    const appleProvider = new firebase.auth.OAuthProvider('apple.com');
+    appleProvider.addScope('email');
+    appleProvider.addScope('name');
+    appleProvider.setCustomParameters({
+      'locale': 'en'
+    });
+    
+    console.log('Starting Apple sign-in...');
+    const result = await auth.signInWithPopup(appleProvider);
+    
+    // Create user profile in Firestore
+    await createUserProfile(result.user);
+    
+    showSuccess(`Welcome ${result.user.displayName || result.user.email}!`);
+    setTimeout(() => {
+      window.location.href = 'index.html';
+    }, 1500);
+    
+  } catch (error) {
+    console.error('Apple sign-in error:', error);
+    
+    let errorMessage = 'Apple sign-in failed.';
+    if (error.code === 'auth/operation-not-allowed') {
+      errorMessage = 'Apple Sign-In is not configured. Please contact support.';
+    } else if (error.code === 'auth/popup-closed-by-user') {
+      errorMessage = 'Sign-in popup was closed. Please try again.';
+    } else if (error.code === 'auth/popup-blocked') {
+      errorMessage = 'Popup was blocked. Please allow popups and try again.';
+    } else {
+      errorMessage = `Apple sign-in failed: ${error.message}`;
+    }
+    
+    showError(errorMessage);
+  } finally {
+    setLoading(false);
+  }
 }
 
 // Toggle between sign in and sign up

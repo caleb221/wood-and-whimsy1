@@ -1,32 +1,36 @@
 // Account Management JavaScript
 
+// Global user variable
+let currentUser = null;
+
 // Check if user is authenticated on page load
 window.addEventListener('DOMContentLoaded', function() {
   checkUserAuthentication();
-  loadUserProfile();
-  loadPaymentMethods();
-  loadOrderHistory();
-  loadUserPreferences();
-  setupFormHandlers();
 });
 
-// Check if user is authenticated
+// Check if user is authenticated using Firebase
 function checkUserAuthentication() {
-  const currentUser = localStorage.getItem('currentUser');
-  if (!currentUser) {
-    alert('Please sign in to access your account.');
-    window.location.href = 'index.html';
-    return;
-  }
+  const auth = firebase.auth();
   
-  try {
-    const userData = JSON.parse(currentUser);
-    updateUserDisplay(userData);
-  } catch (error) {
-    console.error('Error parsing user data:', error);
-    localStorage.removeItem('currentUser');
-    window.location.href = 'index.html';
-  }
+  // Listen for authentication state changes
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      // User is signed in
+      console.log('User is authenticated:', user);
+      currentUser = user;
+      updateUserDisplay(user);
+      loadUserProfile();
+      loadPaymentMethods();
+      loadOrderHistory();
+      loadUserPreferences();
+      setupFormHandlers();
+    } else {
+      // User is not signed in
+      console.log('No user authenticated');
+      alert('Please sign in to access your account.');
+      window.location.href = 'signin-new.html';
+    }
+  });
 }
 
 // Update user display in navigation
@@ -40,17 +44,15 @@ function updateUserDisplay(user) {
 
 // Load user profile data
 function loadUserProfile() {
-  const currentUser = localStorage.getItem('currentUser');
   if (!currentUser) return;
   
   try {
-    const userData = JSON.parse(currentUser);
     const savedProfile = localStorage.getItem('userProfile');
     const profileData = savedProfile ? JSON.parse(savedProfile) : {};
     
-    // Populate form fields
-    document.getElementById('profile-name').value = userData.displayName || '';
-    document.getElementById('profile-email').value = userData.email || '';
+    // Populate form fields with Firebase user data
+    document.getElementById('profile-name').value = currentUser.displayName || '';
+    document.getElementById('profile-email').value = currentUser.email || '';
     document.getElementById('profile-phone').value = profileData.phone || '';
     document.getElementById('profile-address').value = profileData.address || '';
   } catch (error) {
@@ -104,22 +106,11 @@ async function saveProfile() {
     // Save to localStorage
     localStorage.setItem('userProfile', JSON.stringify(profileData));
     
-    // Update current user data
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    currentUser.displayName = profileData.name;
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-    
-    // Update Firebase profile if available
-    try {
-      const { getAuth, updateProfile } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js");
-      const auth = getAuth();
-      if (auth.currentUser) {
-        await updateProfile(auth.currentUser, {
-          displayName: profileData.name
-        });
-      }
-    } catch (firebaseError) {
-      console.log('Firebase profile update not available:', firebaseError.message);
+    // Update Firebase user profile
+    if (currentUser && currentUser.updateProfile) {
+      await currentUser.updateProfile({
+        displayName: profileData.name
+      });
     }
     
     alert('Profile updated successfully!');
@@ -366,11 +357,9 @@ window.deleteAccount = async function() {
 // Sign out function
 window.signOutUser = async function() {
   try {
-    const { getAuth, signOut } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js");
-    const auth = getAuth();
+    const auth = firebase.auth();
     
-    await signOut(auth);
-    localStorage.removeItem('currentUser');
+    await auth.signOut();
     
     alert('You have been signed out successfully.');
     window.location.href = 'index.html';

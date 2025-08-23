@@ -245,11 +245,18 @@ async function trackOrder() {
 
 // Get order from Firebase
 async function getOrderFromFirebase(orderNumber) {
-  if (!currentUser) return null;
-  
   try {
     const ordersRef = collection(db, 'orders');
-    const q = query(ordersRef, where('orderId', '==', orderNumber), where('userId', '==', currentUser.uid));
+    let q;
+    
+    if (currentUser) {
+      // Query with user authentication
+      q = query(ordersRef, where('orderId', '==', orderNumber), where('userId', '==', currentUser.uid));
+    } else {
+      // Query without user authentication (for guest orders)
+      q = query(ordersRef, where('orderId', '==', orderNumber));
+    }
+    
     const querySnapshot = await getDocs(q);
     
     if (!querySnapshot.empty) {
@@ -258,6 +265,21 @@ async function getOrderFromFirebase(orderNumber) {
     }
   } catch (error) {
     console.error('Error fetching order from Firebase:', error);
+  }
+  
+  // Try localStorage as fallback
+  try {
+    const savedOrders = localStorage.getItem('orders');
+    if (savedOrders) {
+      const orders = JSON.parse(savedOrders);
+      const order = orders.find(o => o.orderId === orderNumber);
+      if (order) {
+        console.log('Order found in localStorage:', order);
+        return order;
+      }
+    }
+  } catch (error) {
+    console.error('Error checking localStorage for orders:', error);
   }
   
   return null;
@@ -828,5 +850,23 @@ setInterval(async () => {
     }
   }
 }, 30000); // Update every 30 seconds
+
+// Check for order ID in URL parameters and auto-populate
+function checkURLParameters() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const orderIdFromURL = urlParams.get('orderId');
+  
+  if (orderIdFromURL) {
+    const orderInput = document.getElementById('orderInput');
+    if (orderInput) {
+      orderInput.value = orderIdFromURL;
+      // Auto-track the order if it came from URL
+      trackOrder();
+    }
+  }
+}
+
+// Initialize URL parameter checking when page loads
+document.addEventListener('DOMContentLoaded', checkURLParameters);
 
 console.log('🚚 Order tracking system with interactive map loaded successfully!');

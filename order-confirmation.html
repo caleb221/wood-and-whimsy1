@@ -142,6 +142,16 @@
             <h1 class="confirmation-title">Order Confirmed!</h1>
             <p>Thank you for your purchase! Your order has been successfully placed and you'll receive a confirmation email shortly.</p>
             
+            <div class="order-id-display" id="order-id-display" style="display: none;">
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px; padding: 1.5rem; margin: 2rem 0; text-align: center;">
+                    <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem;">🆔 Your Order ID</h3>
+                    <div style="font-size: 1.8rem; font-weight: bold; letter-spacing: 2px; margin: 0.5rem 0;" id="order-id-number">
+                        <!-- Order ID will be populated -->
+                    </div>
+                    <p style="font-size: 0.9rem; opacity: 0.9; margin: 0;">Keep this ID for your records and customer support</p>
+                </div>
+            </div>
+            
             <div class="order-details" id="order-details">
                 <h3>📋 Order Summary</h3>
                 <div id="order-info">
@@ -149,7 +159,19 @@
                 </div>
             </div>
             
+            <div class="tracking-info" id="tracking-info" style="display: none;">
+                <div style="background: #f0f9ff; border: 2px solid #0ea5e9; border-radius: 15px; padding: 1.5rem; margin: 2rem 0; text-align: center;">
+                    <h3 style="color: #0ea5e9; margin-bottom: 1rem;">📦 Track Your Order</h3>
+                    <p style="margin-bottom: 1rem;">Your tracking number:</p>
+                    <div style="font-size: 1.2rem; font-weight: bold; color: #0ea5e9; background: white; padding: 0.75rem; border-radius: 8px; margin-bottom: 1rem;" id="tracking-number">
+                        <!-- Tracking number will be populated -->
+                    </div>
+                    <p style="font-size: 0.9rem; color: #666;">Save this number to track your order anytime</p>
+                </div>
+            </div>
+            
             <div class="action-buttons">
+                <a href="track.html" class="btn btn-primary" id="track-order-btn" style="display: none;">📦 Track Order</a>
                 <a href="index.html" class="btn btn-primary">🏠 Continue Shopping</a>
                 <a href="help-center.html" class="btn btn-secondary">❓ Need Help?</a>
             </div>
@@ -237,6 +259,10 @@
                         <span>${order.items.length} item(s)</span>
                     </div>
                     <div class="detail-row">
+                        <span>Payment Method:</span>
+                        <span>${getPaymentMethodDisplay(order.paymentMethod)}</span>
+                    </div>
+                    <div class="detail-row">
                         <span>Delivery:</span>
                         <span>${order.deliveryOption === 'standard' ? 'Standard (5-7 days)' : 
                                order.deliveryOption === 'express' ? 'Express (2-3 days)' : 
@@ -248,12 +274,71 @@
                     </div>
                     <div class="detail-row">
                         <span>Total:</span>
-                        <span>$${order.total.toFixed(2)}</span>
+                        <span>GH₵${order.total.toFixed(2)}</span>
                     </div>
                 `;
+                
+                // Show Order ID prominently
+                displayOrderId(order);
+                
+                // Show tracking information
+                displayTrackingInfo(order);
+                
+                // Show track order button
+                const trackOrderBtn = document.getElementById('track-order-btn');
+                if (trackOrderBtn) {
+                    trackOrderBtn.style.display = 'inline-block';
+                    trackOrderBtn.href = `track.html?orderId=${order.orderId}`;
+                }
             } catch (error) {
                 console.error('Error loading order:', error);
                 document.getElementById('order-info').innerHTML = '<p>Error loading order details. Please try again.</p>';
+            }
+        }
+        
+        // Display tracking information
+        function displayTrackingInfo(order) {
+            const trackingInfo = document.getElementById('tracking-info');
+            const trackingNumber = document.getElementById('tracking-number');
+            
+            if (trackingInfo && trackingNumber) {
+                // Generate tracking number based on order ID
+                const trackingNum = `WW${order.orderId.slice(-8).toUpperCase()}`;
+                trackingNumber.textContent = trackingNum;
+                trackingInfo.style.display = 'block';
+            }
+        }
+        
+        // Display Order ID prominently
+        function displayOrderId(order) {
+            const orderIdDisplay = document.getElementById('order-id-display');
+            const orderIdNumber = document.getElementById('order-id-number');
+            
+            if (orderIdDisplay && orderIdNumber) {
+                orderIdNumber.textContent = order.orderId;
+                orderIdDisplay.style.display = 'block';
+            }
+        }
+        
+        // Get payment method display name
+        function getPaymentMethodDisplay(paymentMethod) {
+            switch (paymentMethod) {
+                case 'mtn':
+                    return '📱 MTN Mobile Money';
+                case 'airteltigo':
+                    return '📲 AirtelTigo Money';
+                case 'telecel':
+                    return '💰 Telecel Cash';
+                case 'card':
+                    return '💳 Credit/Debit Card';
+                case 'paypal':
+                    return '🅿️ PayPal';
+                case 'apple-pay':
+                    return '🍎 Apple Pay';
+                case 'google-pay':
+                    return '🅖 Google Pay';
+                default:
+                    return paymentMethod || 'Unknown';
             }
         }
         

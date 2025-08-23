@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Café Menu - Wood & Whimsy</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="whatsapp-chat.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -36,6 +37,47 @@
       </div>
     </div>
   </nav>
+
+  <!-- Animated Café Background -->
+  <div class="cafe-animated-bg">
+    <div class="coffee-steam">
+      <div class="steam-particle"></div>
+      <div class="steam-particle"></div>
+      <div class="steam-particle"></div>
+      <div class="steam-particle"></div>
+      <div class="steam-particle"></div>
+      <div class="steam-particle"></div>
+      <div class="steam-particle"></div>
+      <div class="steam-particle"></div>
+    </div>
+    <div class="coffee-beans">
+      <div class="bean"></div>
+      <div class="bean"></div>
+      <div class="bean"></div>
+      <div class="bean"></div>
+      <div class="bean"></div>
+      <div class="bean"></div>
+    </div>
+    <div class="floating-cups">
+      <div class="cup">☕</div>
+      <div class="cup">🥐</div>
+      <div class="cup">🧁</div>
+      <div class="cup">🍰</div>
+    </div>
+    <div class="cafe-particles">
+      <div class="cafe-particle"></div>
+      <div class="cafe-particle"></div>
+      <div class="cafe-particle"></div>
+      <div class="cafe-particle"></div>
+      <div class="cafe-particle"></div>
+      <div class="cafe-particle"></div>
+      <div class="cafe-particle"></div>
+      <div class="cafe-particle"></div>
+      <div class="cafe-particle"></div>
+      <div class="cafe-particle"></div>
+    </div>
+    <div class="warm-overlay"></div>
+  </div>
 
   <!-- Café Header -->
   <section class="cafe-hero">
@@ -102,7 +144,7 @@
             <h3>Artisan Coffee</h3>
             <p>Freshly roasted single-origin beans with rich, complex flavors</p>
             <div class="menu-item-footer">
-              <span class="price">$4.50</span>
+              <span class="price">₵4.50</span>
               <button class="order-btn" onclick="addToOrder('Artisan Coffee', 4.50, this)">Order Now</button>
             </div>
           </div>
@@ -118,7 +160,7 @@
             <h3>Specialty Latte</h3>
             <p>Creamy steamed milk with espresso and your choice of flavor</p>
             <div class="menu-item-footer">
-              <span class="price">$5.25</span>
+              <span class="price">₵5.25</span>
               <button class="order-btn" onclick="addToOrder('Specialty Latte', 5.25, this)">Order Now</button>
             </div>
           </div>
@@ -134,7 +176,7 @@
             <h3>Iced Cold Brew</h3>
             <p>Smooth, refreshing cold-brewed coffee served over ice</p>
             <div class="menu-item-footer">
-              <span class="price">$4.75</span>
+              <span class="price">₵4.75</span>
               <button class="order-btn" onclick="addToOrder('Iced Cold Brew', 4.75, this)">Order Now</button>
             </div>
           </div>
@@ -151,7 +193,7 @@
             <h3>Fresh Croissant</h3>
             <p>Buttery, flaky pastry baked fresh daily</p>
             <div class="menu-item-footer">
-              <span class="price">$3.25</span>
+              <span class="price">₵3.25</span>
               <button class="order-btn" onclick="addToOrder('Fresh Croissant', 3.25, this)">Order Now</button>
             </div>
           </div>
@@ -217,7 +259,7 @@
             <h3>Jollof Rice</h3>
             <p>Traditional spiced rice with tomatoes, onions, and aromatic herbs</p>
             <div class="menu-item-footer">
-              <span class="price">$16.00</span>
+              <span class="price">₵16.00</span>
               <button class="order-btn" onclick="addToOrder('Jollof Rice', 16.00, this)">Order Now</button>
             </div>
           </div>
@@ -233,7 +275,7 @@
             <h3>Kelewele</h3>
             <p>Spiced fried plantains with ginger, pepper, and traditional seasonings</p>
             <div class="menu-item-footer">
-              <span class="price">$8.50</span>
+              <span class="price">₵8.50</span>
               <button class="order-btn" onclick="addToOrder('Kelewele', 8.50, this)">Order Now</button>
             </div>
           </div>
@@ -249,8 +291,152 @@
             <h3>Banku with Grilled Tilapia</h3>
             <p>Fermented corn and cassava dough with grilled tilapia and pepper sauce</p>
             <div class="menu-item-footer">
-              <span class="price">$22.00</span>
+              <span class="price">₵22.00</span>
               <button class="order-btn" onclick="addToOrder('Banku with Grilled Tilapia', 22.00, this)">Order Now</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item" data-category="ghanaian">
+          <div class="menu-item-image">
+            <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&h=300&fit=crop" alt="Fufu with Light Soup">
+            <div class="menu-badge hearty">Hearty</div>
+            <div class="menu-rating">⭐ 4.9</div>
+          </div>
+          <div class="menu-item-content">
+            <h3>Fufu with Light Soup</h3>
+            <p>Pounded cassava and plantain with aromatic light soup and goat meat</p>
+            <div class="menu-item-footer">
+              <span class="price">₵19.50</span>
+              <button class="order-btn" onclick="addToOrder('Fufu with Light Soup', 19.50, this)">Order Now</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item" data-category="ghanaian">
+          <div class="menu-item-image">
+            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop" alt="Red Red">
+            <div class="menu-badge comfort">Comfort Food</div>
+            <div class="menu-rating">⭐ 4.7</div>
+          </div>
+          <div class="menu-item-content">
+            <h3>Red Red</h3>
+            <p>Black-eyed peas in rich palm oil stew with fried plantains and gari</p>
+            <div class="menu-item-footer">
+              <span class="price">₵15.00</span>
+              <button class="order-btn" onclick="addToOrder('Red Red', 15.00, this)">Order Now</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item" data-category="ghanaian">
+          <div class="menu-item-image">
+            <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=300&fit=crop" alt="Waakye">
+            <div class="menu-badge popular">Popular</div>
+            <div class="menu-rating">⭐ 4.8</div>
+          </div>
+          <div class="menu-item-content">
+            <h3>Waakye</h3>
+            <p>Rice and beans cooked with millet leaves, served with stew and boiled egg</p>
+            <div class="menu-item-footer">
+              <span class="price">₵17.50</span>
+              <button class="order-btn" onclick="addToOrder('Waakye', 17.50, this)">Order Now</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item" data-category="ghanaian">
+          <div class="menu-item-image">
+            <img src="https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&h=300&fit=crop" alt="Kontomire Stew">
+            <div class="menu-badge healthy">Healthy</div>
+            <div class="menu-rating">⭐ 4.6</div>
+          </div>
+          <div class="menu-item-content">
+            <h3>Kontomire Stew</h3>
+            <p>Nutritious cocoyam leaves stew with smoked fish and palm oil</p>
+            <div class="menu-item-footer">
+              <span class="price">₵14.50</span>
+              <button class="order-btn" onclick="addToOrder('Kontomire Stew', 14.50, this)">Order Now</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item" data-category="ghanaian">
+          <div class="menu-item-image">
+            <img src="https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=400&h=300&fit=crop" alt="Tuo Zaafi">
+            <div class="menu-badge northern">Northern Special</div>
+            <div class="menu-rating">⭐ 4.7</div>
+          </div>
+          <div class="menu-item-content">
+            <h3>Tuo Zaafi</h3>
+            <p>Northern Ghana specialty - corn flour dumpling with ayoyo soup</p>
+            <div class="menu-item-footer">
+              <span class="price">₵18.00</span>
+              <button class="order-btn" onclick="addToOrder('Tuo Zaafi', 18.00, this)">Order Now</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item" data-category="ghanaian">
+          <div class="menu-item-image">
+            <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400&h=300&fit=crop" alt="Groundnut Soup">
+            <div class="menu-badge rich">Rich</div>
+            <div class="menu-rating">⭐ 4.8</div>
+          </div>
+          <div class="menu-item-content">
+            <h3>Groundnut Soup</h3>
+            <p>Creamy peanut soup with chicken, served with rice balls or fufu</p>
+            <div class="menu-item-footer">
+              <span class="price">₵20.00</span>
+              <button class="order-btn" onclick="addToOrder('Groundnut Soup', 20.00, this)">Order Now</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item" data-category="ghanaian">
+          <div class="menu-item-image">
+            <img src="https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&h=300&fit=crop" alt="Okro Stew">
+            <div class="menu-badge traditional">Traditional</div>
+            <div class="menu-rating">⭐ 4.5</div>
+          </div>
+          <div class="menu-item-content">
+            <h3>Okro Stew</h3>
+            <p>Traditional okra stew with beef and fish, served with banku or rice</p>
+            <div class="menu-item-footer">
+              <span class="price">₵16.50</span>
+              <button class="order-btn" onclick="addToOrder('Okro Stew', 16.50, this)">Order Now</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item" data-category="ghanaian">
+          <div class="menu-item-image">
+            <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400&h=300&fit=crop" alt="Kenkey with Fried Fish">
+            <div class="menu-badge coastal">Coastal Special</div>
+            <div class="menu-rating">⭐ 4.6</div>
+          </div>
+          <div class="menu-item-content">
+            <h3>Kenkey with Fried Fish</h3>
+            <p>Fermented corn dumpling with crispy fried fish and spicy pepper sauce</p>
+            <div class="menu-item-footer">
+              <span class="price">₵19.00</span>
+              <button class="order-btn" onclick="addToOrder('Kenkey with Fried Fish', 19.00, this)">Order Now</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item" data-category="ghanaian">
+          <div class="menu-item-image">
+            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop" alt="Ampesi">
+            <div class="menu-badge simple">Simple & Pure</div>
+            <div class="menu-rating">⭐ 4.4</div>
+          </div>
+          <div class="menu-item-content">
+            <h3>Ampesi</h3>
+            <p>Boiled yam, plantain, and cocoyam with kontomire stew and boiled egg</p>
+            <div class="menu-item-footer">
+              <span class="price">₵13.50</span>
+              <button class="order-btn" onclick="addToOrder('Ampesi', 13.50, this)">Order Now</button>
             </div>
           </div>
         </div>
@@ -272,7 +458,7 @@
     </div>
     <div class="cart-footer">
       <div class="cart-total">
-        <strong>Total: $<span id="cafe-cart-total">0</span></strong>
+        <strong>Total: ₵<span id="cafe-cart-total">0</span></strong>
       </div>
       <button class="checkout-btn" onclick="proceedToCafeCheckout()">
         Place Order
@@ -281,5 +467,329 @@
   </div>
 
   <script src="cafe.js"></script>
+  
+  <!-- Café Animation Styles -->
+  <style>
+    /* Café Animated Background */
+    .cafe-animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+      background: linear-gradient(-45deg, #8B4513, #D2691E, #CD853F, #F4A460, #DEB887);
+      background-size: 400% 400%;
+      animation: cafeGradientShift 20s ease infinite;
+    }
+
+    @keyframes cafeGradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Coffee Steam Animation */
+    .coffee-steam {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .steam-particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      animation: steamRise 8s infinite linear;
+    }
+
+    .steam-particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+    .steam-particle:nth-child(2) { left: 20%; animation-delay: 1s; }
+    .steam-particle:nth-child(3) { left: 30%; animation-delay: 2s; }
+    .steam-particle:nth-child(4) { left: 40%; animation-delay: 3s; }
+    .steam-particle:nth-child(5) { left: 60%; animation-delay: 4s; }
+    .steam-particle:nth-child(6) { left: 70%; animation-delay: 5s; }
+    .steam-particle:nth-child(7) { left: 80%; animation-delay: 6s; }
+    .steam-particle:nth-child(8) { left: 90%; animation-delay: 7s; }
+
+    @keyframes steamRise {
+      0% {
+        transform: translateY(100vh) scale(0.5);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      50% {
+        transform: translateY(50vh) translateX(20px) scale(1.2);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-100px) translateX(40px) scale(0.3);
+        opacity: 0;
+      }
+    }
+
+    /* Coffee Beans Animation */
+    .coffee-beans {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .bean {
+      position: absolute;
+      width: 12px;
+      height: 18px;
+      background: #3C1810;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      animation: beanFloat 25s infinite linear;
+    }
+
+    .bean::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 2px;
+      height: 12px;
+      background: #2C1208;
+      border-radius: 2px;
+    }
+
+    .bean:nth-child(1) { left: 5%; animation-delay: 0s; animation-duration: 30s; }
+    .bean:nth-child(2) { left: 25%; animation-delay: 5s; animation-duration: 28s; }
+    .bean:nth-child(3) { left: 45%; animation-delay: 10s; animation-duration: 32s; }
+    .bean:nth-child(4) { left: 65%; animation-delay: 15s; animation-duration: 26s; }
+    .bean:nth-child(5) { left: 85%; animation-delay: 20s; animation-duration: 29s; }
+    .bean:nth-child(6) { left: 95%; animation-delay: 25s; animation-duration: 31s; }
+
+    @keyframes beanFloat {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Floating Food Items */
+    .floating-cups {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .cup {
+      position: absolute;
+      font-size: 2rem;
+      animation: cupFloat 20s infinite linear;
+    }
+
+    .cup:nth-child(1) { left: 15%; animation-delay: 0s; animation-duration: 22s; }
+    .cup:nth-child(2) { left: 35%; animation-delay: 5s; animation-duration: 24s; }
+    .cup:nth-child(3) { left: 55%; animation-delay: 10s; animation-duration: 26s; }
+    .cup:nth-child(4) { left: 75%; animation-delay: 15s; animation-duration: 28s; }
+
+    @keyframes cupFloat {
+      0% {
+        transform: translateY(100vh) rotate(0deg) scale(0.5);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.8;
+        transform: scale(1);
+      }
+      50% {
+        transform: translateY(50vh) rotate(180deg) scale(1.1);
+      }
+      90% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg) scale(0.5);
+        opacity: 0;
+      }
+    }
+
+    /* Café Particles */
+    .cafe-particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    .cafe-particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: rgba(255, 223, 186, 0.9);
+      border-radius: 50%;
+      animation: cafeParticleFloat 12s infinite linear;
+    }
+
+    .cafe-particle:nth-child(1) { left: 8%; animation-delay: 0s; animation-duration: 15s; }
+    .cafe-particle:nth-child(2) { left: 18%; animation-delay: 2s; animation-duration: 13s; }
+    .cafe-particle:nth-child(3) { left: 28%; animation-delay: 4s; animation-duration: 16s; }
+    .cafe-particle:nth-child(4) { left: 38%; animation-delay: 6s; animation-duration: 14s; }
+    .cafe-particle:nth-child(5) { left: 48%; animation-delay: 8s; animation-duration: 17s; }
+    .cafe-particle:nth-child(6) { left: 58%; animation-delay: 10s; animation-duration: 12s; }
+    .cafe-particle:nth-child(7) { left: 68%; animation-delay: 12s; animation-duration: 18s; }
+    .cafe-particle:nth-child(8) { left: 78%; animation-delay: 14s; animation-duration: 15s; }
+    .cafe-particle:nth-child(9) { left: 88%; animation-delay: 16s; animation-duration: 13s; }
+    .cafe-particle:nth-child(10) { left: 98%; animation-delay: 18s; animation-duration: 16s; }
+
+    @keyframes cafeParticleFloat {
+      0% {
+        transform: translateY(100vh) translateX(0px);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px) translateX(30px);
+        opacity: 0;
+      }
+    }
+
+    /* Warm Overlay */
+    .warm-overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 30% 70%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 30%, rgba(255, 165, 0, 0.1) 0%, transparent 50%);
+      animation: warmPulse 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes warmPulse {
+      0% {
+        opacity: 0.3;
+      }
+      100% {
+        opacity: 0.7;
+      }
+    }
+
+    /* Menu Item Animations */
+    .menu-item {
+      animation: menuItemFadeIn 0.8s ease-out both;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .menu-item:nth-child(1) { animation-delay: 0.1s; }
+    .menu-item:nth-child(2) { animation-delay: 0.2s; }
+    .menu-item:nth-child(3) { animation-delay: 0.3s; }
+    .menu-item:nth-child(4) { animation-delay: 0.4s; }
+    .menu-item:nth-child(5) { animation-delay: 0.5s; }
+    .menu-item:nth-child(6) { animation-delay: 0.6s; }
+
+    @keyframes menuItemFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .menu-item:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    }
+
+    .menu-item:hover .menu-item-image img {
+      transform: scale(1.1);
+    }
+
+    /* Café Hero Animation */
+    .cafe-hero {
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .cafe-hero h1 {
+      animation: slideInLeft 1s ease-out 0.3s both;
+    }
+
+    .cafe-hero p {
+      animation: slideInRight 1s ease-out 0.5s both;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .steam-particle {
+        width: 4px;
+        height: 4px;
+      }
+      
+      .bean {
+        width: 8px;
+        height: 12px;
+      }
+      
+      .cup {
+        font-size: 1.5rem;
+      }
+      
+      .menu-item:hover {
+        transform: translateY(-4px) scale(1.01);
+      }
+    }
+  </style>
+  
+  <!-- WhatsApp Chat Widget -->
+  <script src="whatsapp-chat.js"></script>
 </body>
 </html>

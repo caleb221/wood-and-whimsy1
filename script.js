@@ -256,6 +256,52 @@ function updateUserInterface(user) {
 
 // Close auth modal function is defined below as window.closeAuthModal
 
+// Define addToCart function globally FIRST - replace the placeholder
+window.fullAddToCart = async function(productId) {
+  console.log('Full addToCart function called with productId:', productId);
+  
+  try {
+    const product = products[productId];
+    console.log('Product found:', product);
+    
+    if (!product) {
+      console.error('Product not found:', productId)
+      showNotification('Product not found. Please try again.', 'error')
+      return
+    }
+
+    const existingItem = cart.find(item => item.id === productId);
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      cart.push({
+        id: productId,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        quantity: 1
+      });
+    }
+
+    updateCartDisplay();
+    saveCartToLocalStorage(); // Keep localStorage as backup
+    await saveCartToFirestore(); // Save to Firestore for authenticated users
+    showNotification(`${product.name} added to cart!`, 'success');
+  } catch (error) {
+    console.error('Error adding to cart:', error)
+    showNotification('Something went wrong. Please try again.', 'error')
+  }
+};
+
+// Replace the placeholder addToCart with the full function
+window.addToCart = window.fullAddToCart;
+
+// Initialize everything when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('🚀 DOM Content Loaded - Starting initialization');
+  initializeApp();
+});
+
 // Initialize when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
   console.log('DOM loaded, initializing...')
@@ -282,6 +328,187 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   } catch (error) {
     console.error('Error initializing DOM elements:', error);
+  }
+
+  // Add event listeners for all navigation buttons - IMMEDIATE EXECUTION
+  console.log('🔍 Looking for sign in button...');
+  const signInBtn = document.querySelector('#sign-in-link');
+  console.log('Sign in button element:', signInBtn);
+  
+  if (signInBtn) {
+    console.log('✅ Sign in button found, adding event listener');
+    
+    // Remove any existing event listeners
+    signInBtn.replaceWith(signInBtn.cloneNode(true));
+    const newSignInBtn = document.querySelector('#sign-in-link');
+    
+    newSignInBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log('🔥🔥🔥 SIGN IN BUTTON CLICKED! 🔥🔥🔥');
+      
+      // Force modal open immediately
+      const modal = document.getElementById('auth-modal');
+      if (modal) {
+        console.log('Found modal, forcing display...');
+        modal.style.cssText = `
+          display: flex !important;
+          position: fixed !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          bottom: 0 !important;
+          background: rgba(31,41,55,0.8) !important;
+          z-index: 99999 !important;
+          align-items: center !important;
+          justify-content: center !important;
+        `;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        console.log('✅ Modal should be visible now!');
+      } else {
+        console.error('❌ Modal not found');
+        alert('Modal not found!');
+      }
+      
+      return false;
+    });
+    
+    console.log('✅ Event listener added successfully');
+  } else {
+    console.error('❌ Sign in button not found in DOM');
+    
+    // Try to find it with different selectors
+    const altBtn1 = document.querySelector('.sign-in-btn');
+    const altBtn2 = document.querySelector('[id*="sign"]');
+    console.log('Alternative button searches:', {
+      'sign-in-btn class': !!altBtn1,
+      'id contains sign': !!altBtn2
+    });
+  }
+
+  // Add event listener for furniture cart button
+  const furnitureCartBtn = document.querySelector('#furniture-cart-btn');
+  if (furnitureCartBtn) {
+    console.log('Adding event listener to furniture cart button');
+    furnitureCartBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      console.log('🛒 Furniture cart button clicked!');
+      if (typeof window.toggleCart === 'function') {
+        window.toggleCart();
+      } else {
+        console.error('toggleCart function not available');
+      }
+    });
+  } else {
+    console.error('Furniture cart button not found');
+  }
+
+  // Add event listener for cafe cart button
+  const cafeCartBtn = document.querySelector('#cafe-cart-btn');
+  if (cafeCartBtn) {
+    console.log('Adding event listener to cafe cart button');
+    cafeCartBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      console.log('☕ Cafe cart button clicked!');
+      if (typeof window.toggleCafeCart === 'function') {
+        window.toggleCafeCart();
+      } else {
+        console.error('toggleCafeCart function not available');
+        // Create the function if it doesn't exist
+        window.toggleCafeCart = function() {
+          console.log('Creating toggleCafeCart function');
+          const cafeCartSidebar = document.querySelector('#cafe-cart-sidebar');
+          const cafeCartOverlay = document.querySelector('#cafe-cart-overlay');
+          
+          if (cafeCartSidebar && cafeCartOverlay) {
+            const isOpen = cafeCartSidebar.classList.contains('open');
+            if (isOpen) {
+              cafeCartSidebar.classList.remove('open');
+              cafeCartOverlay.classList.remove('open');
+              document.body.style.overflow = 'auto';
+            } else {
+              cafeCartSidebar.classList.add('open');
+              cafeCartOverlay.classList.add('open');
+              document.body.style.overflow = 'hidden';
+            }
+          } else {
+            console.error('Cafe cart elements not found');
+          }
+        };
+        window.toggleCafeCart();
+      }
+    });
+  } else {
+    console.error('Cafe cart button not found');
+  }
+
+  // Add event listeners for close buttons
+  const closeCartBtn = document.querySelector('#close-cart-btn');
+  if (closeCartBtn) {
+    closeCartBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      console.log('Close cart button clicked');
+      if (typeof window.toggleCart === 'function') {
+        window.toggleCart();
+      }
+    });
+  }
+
+  const closeCafeCartBtn = document.querySelector('#close-cafe-cart-btn');
+  if (closeCafeCartBtn) {
+    closeCafeCartBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      console.log('Close cafe cart button clicked');
+      if (typeof window.toggleCafeCart === 'function') {
+        window.toggleCafeCart();
+      }
+    });
+  }
+
+  // Add event listeners for overlays
+  const cartOverlay = document.querySelector('#cart-overlay');
+  if (cartOverlay) {
+    cartOverlay.addEventListener('click', function(e) {
+      console.log('Cart overlay clicked');
+      if (typeof window.toggleCart === 'function') {
+        window.toggleCart();
+      }
+    });
+  }
+
+  const cafeCartOverlay = document.querySelector('#cafe-cart-overlay');
+  if (cafeCartOverlay) {
+    cafeCartOverlay.addEventListener('click', function(e) {
+      console.log('Cafe cart overlay clicked');
+      if (typeof window.toggleCafeCart === 'function') {
+        window.toggleCafeCart();
+      }
+    });
+  }
+
+  // Add event listener for cafe checkout button
+  const cafeCheckoutBtn = document.querySelector('#cafe-checkout-btn');
+  if (cafeCheckoutBtn) {
+    cafeCheckoutBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      console.log('Cafe checkout button clicked');
+      if (typeof window.proceedToCafeCheckout === 'function') {
+        window.proceedToCafeCheckout();
+      }
+    });
+  }
+
+  // Add event listener for auth modal close button
+  const closeAuthModalBtn = document.querySelector('#close-auth-modal');
+  if (closeAuthModalBtn) {
+    closeAuthModalBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      console.log('Close auth modal button clicked');
+      if (typeof window.closeAuthModal === 'function') {
+        window.closeAuthModal();
+      }
+    });
   }
   
   // Initialize cart display
@@ -395,27 +622,58 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Cart functionality
 function toggleCart() {
+  console.log('🛒 toggleCart called');
+  
+  // Check if cart is empty
+  if (!cart || cart.length === 0) {
+    showNotification('Your cart is empty! Browse our furniture collection to add items. 🛋️', 'info');
+    // Redirect to shop page after a short delay
+    setTimeout(() => {
+      window.location.href = 'shop.html';
+    }, 2000);
+    return;
+  }
+  
   try {
-    if (!cartSidebar || !cartOverlay) {
+    // Always try to find elements fresh
+    const sidebar = document.getElementById('cart-sidebar');
+    const overlay = document.getElementById('cart-overlay');
+    
+    console.log('Cart elements found:', {
+      sidebar: !!sidebar,
+      overlay: !!overlay
+    });
+    
+    if (!sidebar || !overlay) {
       console.error('Cart elements not found');
       return;
     }
     
-    cartSidebar.classList.toggle("open");
-    cartOverlay.classList.toggle("active");
-    document.body.style.overflow = cartSidebar.classList.contains("open") ? "hidden" : "auto";
+    const isOpen = sidebar.classList.contains('open');
+    console.log('Cart is currently open:', isOpen);
+    
+    if (isOpen) {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('active');
+      document.body.style.overflow = 'auto';
+      console.log('✅ Cart closed');
+    } else {
+      sidebar.classList.add('open');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      console.log('✅ Cart opened');
+    }
   } catch (error) {
-    console.error('Error toggling cart:', error);
-    showNotification('Error opening cart. Please try again.', 'error');
+    console.error('Error in toggleCart:', error);
   }
 }
 
 async function addToCart(productId) {
-  console.log('Adding to cart, productId:', productId)
+  console.log('Adding to cart, productId:', productId);
   
   try {
-    const product = products[productId]
-    console.log('Product found:', product)
+    const product = products[productId];
+    console.log('Product found:', product);
     
     if (!product) {
       console.error('Product not found:', productId)
@@ -1134,14 +1392,65 @@ function loadCartFromLocalStorage() {
   }
 }
 
+// Add event listeners for add-to-cart buttons
+function initializeAddToCartButtons() {
+  const addToCartButtons = document.querySelectorAll('.add-to-cart');
+  addToCartButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      const productId = parseInt(this.getAttribute('onclick').match(/\d+/)[0]);
+      addToCart(productId);
+    });
+  });
+}
+
+// Initialize on DOM ready
+document.addEventListener('DOMContentLoaded', initializeAddToCartButtons);
+
+// Initialize after a delay (fallback)
+setTimeout(initializeAddToCartButtons, 1000);
+
+// Initialize on window load (another fallback)
+window.addEventListener('load', initializeAddToCartButtons);
+
+// Global function to reinitialize if needed
+window.reinitializeCartButtons = initializeAddToCartButtons;
+
 // Make functions and variables globally available immediately
 window.testCart = testCart;
 window.addToCart = addToCart;
 window.addCafeItemToCart = addCafeItemToCart;
 window.syncCartWithModule = syncCartWithModule;
 window.toggleCart = toggleCart;
+window.toggleCafeCart = window.toggleCafeCart || function() {
+  console.log('Creating toggleCafeCart function');
+  const cafeCartSidebar = document.querySelector('#cafe-cart-sidebar');
+  const cafeCartOverlay = document.querySelector('#cafe-cart-overlay');
+  
+  if (cafeCartSidebar && cafeCartOverlay) {
+    const isOpen = cafeCartSidebar.classList.contains('open');
+    if (isOpen) {
+      cafeCartSidebar.classList.remove('open');
+      cafeCartOverlay.classList.remove('open');
+      document.body.style.overflow = 'auto';
+      console.log('✅ Cafe cart closed');
+    } else {
+      cafeCartSidebar.classList.add('open');
+      cafeCartOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      console.log('✅ Cafe cart opened');
+    }
+  } else {
+    console.error('Cafe cart elements not found');
+  }
+};
 window.removeFromCart = removeFromCart;
 window.updateQuantity = updateQuantity;
+window.addToCart = addToCart;
+window.removeFromCart = removeFromCart;
+window.toggleCart = toggleCart;
+window.toggleCafeCart = toggleCafeCart;
+window.proceedToCafeCheckout = proceedToCafeCheckout;
 window.toggleFavorite = toggleFavorite;
 window.getDirections = getDirections;
 window.signOutUser = signOutUser;
@@ -1158,16 +1467,59 @@ window.cart = cart;
 
 // Define auth functions globally to ensure they work with onclick handlers
 window.openAuthModal = function() {
-  console.log('openAuthModal called');
+  console.log('🔥 openAuthModal called - button clicked!');
   const authModal = document.getElementById('auth-modal');
+  console.log('Auth modal element:', authModal);
+  
   if (authModal) {
+    console.log('Modal found, forcing display...');
+    
+    // Remove any existing classes first
+    authModal.classList.remove('active');
+    
+    // Force display immediately with inline styles
+    authModal.style.cssText = `
+      display: flex !important;
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      background: rgba(31,41,55,0.45) !important;
+      z-index: 9999 !important;
+      align-items: center !important;
+      justify-content: center !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    `;
+    
+    // Then add active class
     authModal.classList.add('active');
-    console.log('Auth modal should be visible now');
+    
+    console.log('Modal should now be visible');
+    console.log('Modal computed display:', window.getComputedStyle(authModal).display);
+    console.log('Modal computed visibility:', window.getComputedStyle(authModal).visibility);
+    
     // Initialize auth mode if needed
     const authModalTitle = document.getElementById('auth-modal-title');
     if (authModalTitle) authModalTitle.textContent = 'Sign In';
+    
+    // Reset to sign in mode
+    if (typeof isSignUp !== 'undefined') {
+      isSignUp = false;
+    }
+    const nameGroup = document.getElementById('name-group');
+    const confirmPasswordGroup = document.getElementById('confirm-password-group');
+    if (nameGroup) nameGroup.style.display = 'none';
+    if (confirmPasswordGroup) confirmPasswordGroup.style.display = 'none';
+    
+    // Disable body scroll
+    document.body.style.overflow = 'hidden';
+    
+    console.log('✅ Auth modal setup complete');
   } else {
-    console.error('Auth modal element not found');
+    console.error('❌ Auth modal element not found');
+    alert('Sign in modal not found. Please refresh the page.');
   }
 };
 
@@ -1176,13 +1528,111 @@ window.closeAuthModal = function() {
   const authModal = document.getElementById('auth-modal');
   if (authModal) {
     authModal.classList.remove('active');
+    authModal.style.display = 'none';
+    authModal.style.visibility = 'hidden';
+    authModal.style.opacity = '0';
+    document.body.style.overflow = 'auto';
     console.log('Auth modal hidden');
   }
 };
 
 window.toggleAuthMode = function() {
   console.log('Toggle auth mode clicked');
+  isSignUp = !isSignUp;
+  
+  const authModalTitle = document.getElementById('auth-modal-title');
+  const submitText = document.getElementById('submit-text');
+  const toggleText = document.getElementById('toggle-text');
+  const toggleLink = document.getElementById('toggle-link');
+  const nameGroup = document.getElementById('name-group');
+  const confirmPasswordGroup = document.getElementById('confirm-password-group');
+  const confirmPassword = document.getElementById('confirm-password');
+  const authSubtitle = document.getElementById('auth-subtitle');
+  
+  if (isSignUp) {
+    if (authModalTitle) authModalTitle.textContent = 'Sign Up';
+    if (authSubtitle) authSubtitle.textContent = 'Create your account to get started';
+    if (submitText) submitText.textContent = 'Sign Up';
+    if (toggleText) toggleText.textContent = 'Already have an account?';
+    if (toggleLink) toggleLink.textContent = 'Sign In';
+    if (nameGroup) nameGroup.style.display = 'block';
+    if (confirmPasswordGroup) confirmPasswordGroup.style.display = 'block';
+    if (confirmPassword) confirmPassword.required = true;
+  } else {
+    if (authModalTitle) authModalTitle.textContent = 'Sign In';
+    if (authSubtitle) authSubtitle.textContent = 'Welcome back! Sign in to your account';
+    if (submitText) submitText.textContent = 'Sign In';
+    if (toggleText) toggleText.textContent = "Don't have an account?";
+    if (toggleLink) toggleLink.textContent = 'Sign Up';
+    if (nameGroup) nameGroup.style.display = 'none';
+    if (confirmPasswordGroup) confirmPasswordGroup.style.display = 'none';
+    if (confirmPassword) confirmPassword.required = false;
+  }
+  
+  // Clear any error messages
+  const authError = document.getElementById('error-message');
+  if (authError) authError.style.display = 'none';
 };
+
+// Email authentication functions
+async function signInWithEmail(email, password) {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    showNotification('Successfully signed in!', 'success');
+    console.log('User signed in:', userCredential.user.email);
+    return userCredential;
+  } catch (error) {
+    console.error('Sign in error:', error);
+    throw new Error(getAuthErrorMessage(error.code));
+  }
+}
+
+async function signUpWithEmail(email, password, displayName) {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    
+    // Update user profile with display name
+    if (displayName) {
+      await updateProfile(userCredential.user, {
+        displayName: displayName
+      });
+    }
+    
+    showNotification('Account created successfully!', 'success');
+    console.log('User signed up:', userCredential.user.email);
+    return userCredential;
+  } catch (error) {
+    console.error('Sign up error:', error);
+    throw new Error(getAuthErrorMessage(error.code));
+  }
+}
+
+function getAuthErrorMessage(errorCode) {
+  switch (errorCode) {
+    case 'auth/user-not-found':
+      return 'No account found with this email address.';
+    case 'auth/wrong-password':
+      return 'Incorrect password. Please try again.';
+    case 'auth/email-already-in-use':
+      return 'An account with this email already exists.';
+    case 'auth/weak-password':
+      return 'Password should be at least 6 characters long.';
+    case 'auth/invalid-email':
+      return 'Please enter a valid email address.';
+    case 'auth/too-many-requests':
+      return 'Too many failed attempts. Please try again later.';
+    default:
+      return 'An error occurred. Please try again.';
+  }
+}
+
+function showAuthError(message) {
+  const authError = document.getElementById('error-message');
+  if (authError) {
+    authError.textContent = message;
+    authError.style.display = 'block';
+  }
+}
 
 // Social sign-in functions
 if (!window.signInWithGoogle) {
@@ -1208,9 +1658,142 @@ function signInWithFacebook() {
   showNotification('Facebook sign-in coming soon!', 'info');
 }
 
+// Missing functions for onclick handlers
+function scrollToHome() {
+  document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' });
+}
+
+function shopCollection() {
+  window.location.href = 'shop.html';
+}
+
+function visitCafe() {
+  window.location.href = 'cafe.html';
+}
+
+function togglePasswordVisibility(inputId) {
+  const input = document.getElementById(inputId);
+  const button = input?.nextElementSibling;
+  if (input && button) {
+    if (input.type === 'password') {
+      input.type = 'text';
+      button.textContent = '🙈';
+    } else {
+      input.type = 'password';
+      button.textContent = '👀';
+    }
+  }
+}
+
+function signInWithGoogle() {
+  if (typeof window.signInWithGoogleProvider === 'function') {
+    window.signInWithGoogleProvider();
+  } else {
+    showNotification('Google sign-in coming soon!', 'info');
+  }
+}
+
+function toggleAuthMode() {
+  if (typeof window.toggleSignUpMode === 'function') {
+    window.toggleSignUpMode();
+  } else {
+    console.log('Toggle auth mode clicked');
+  }
+}
+
+function showForgotPassword() {
+  showNotification('Password reset coming soon!', 'info');
+}
+
 // Make functions globally available
 window.signInWithApple = signInWithApple;
 window.signInWithFacebook = signInWithFacebook;
 
+// reCAPTCHA callback functions
+window.onRecaptchaSuccess = function() {
+  console.log('reCAPTCHA verified');
+  const submitBtn = document.getElementById('submit-btn');
+  if (submitBtn) {
+    submitBtn.disabled = false;
+  }
+};
+
+window.onRecaptchaExpired = function() {
+  console.log('reCAPTCHA expired');
+  const submitBtn = document.getElementById('submit-btn');
+  if (submitBtn) {
+    submitBtn.disabled = true;
+  }
+};
+
+// Password visibility toggle
+window.togglePasswordVisibility = function(inputId) {
+  const input = document.getElementById(inputId);
+  const button = input.nextElementSibling;
+  
+  if (input.type === 'password') {
+    input.type = 'text';
+    button.textContent = '🙈';
+  } else {
+    input.type = 'password';
+    button.textContent = '👀';
+  }
+};
+
+// Forgot password function
+window.showForgotPassword = function() {
+  showNotification('Password reset functionality coming soon!', 'info');
+};
+
 // Initialize everything when DOM is ready
 document.addEventListener('DOMContentLoaded', initializeApp);
+
+// Add a simple test to verify the script is loading
+console.log('🚀 Script.js loaded successfully');
+
+// Test function to verify openAuthModal is available
+window.testSignIn = function() {
+  console.log('Testing sign in button...');
+  if (typeof window.openAuthModal === 'function') {
+    console.log('✅ openAuthModal function exists');
+    window.openAuthModal();
+  } else {
+    console.error('❌ openAuthModal function not found');
+  }
+};
+
+// Force modal to work - add immediate test when page loads
+setTimeout(() => {
+  console.log('=== TESTING MODAL AVAILABILITY ===');
+  const modal = document.getElementById('auth-modal');
+  console.log('Modal element found:', !!modal);
+  
+  const signInBtn = document.getElementById('sign-in-link');
+  console.log('Sign in button found:', !!signInBtn);
+  
+  if (modal) {
+    console.log('Modal classes:', modal.className);
+    console.log('Modal display style:', window.getComputedStyle(modal).display);
+    console.log('Modal visibility:', window.getComputedStyle(modal).visibility);
+  }
+  
+  // Test the function directly
+  console.log('Testing openAuthModal function...');
+  if (typeof window.openAuthModal === 'function') {
+    console.log('✅ openAuthModal function exists');
+  } else {
+    console.error('❌ openAuthModal function missing');
+  }
+  
+  // Add a global test function
+  window.testModal = function() {
+    console.log('=== MANUAL MODAL TEST ===');
+    if (typeof window.openAuthModal === 'function') {
+      window.openAuthModal();
+    } else {
+      console.error('openAuthModal not available');
+    }
+  };
+  
+  console.log('=== Run window.testModal() in console to test manually ===');
+}, 2000);

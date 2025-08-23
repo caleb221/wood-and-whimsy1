@@ -237,11 +237,8 @@ window.proceedToCafeCheckout = function() {
   }, 1000);
 };
 
-// Toggle regular cart (for furniture)
-window.toggleCart = function() {
-  // This is just a placeholder since we're on the café page
-  showCafeNotification('Visit our shop page to browse furniture!', 'info');
-};
+// Toggle regular cart (for furniture) - removed placeholder message
+// The main toggleCart function is defined in script.js
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {

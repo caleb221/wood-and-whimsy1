@@ -6,6 +6,31 @@
   <title>My Account - Wood & Whimsy</title>
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  
+  <!-- Firebase Configuration -->
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyAVTV34a0jw5ScKywj-YXy5bt9FG01JBn0",
+      authDomain: "wood12-f40fe.firebaseapp.com",
+      projectId: "wood12-f40fe",
+      storageBucket: "wood12-f40fe.firebasestorage.app",
+      messagingSenderId: "522201725736",
+      appId: "1:522201725736:web:78d597f9d5da25c1dbee1d"
+    };
+
+    // Initialize Firebase
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    
+    console.log('Firebase initialized on account.html');
+  </script>
 </head>
 <body>
   <!-- Navigation -->
