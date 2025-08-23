@@ -115,7 +115,7 @@ async function signInWithGoogle() {
     
     showSuccess(`Welcome back, ${result.user.displayName}!`);
     setTimeout(() => {
-      window.location.href = 'index.html';
+      window.location.href = window.location.origin + '/index.html';
     }, 1500);
   } catch (error) {
     console.error('Google sign-in error:', error);
@@ -153,7 +153,7 @@ async function signInWithEmail(email, password) {
     
     showSuccess(`Welcome back, ${result.user.email}!`);
     setTimeout(() => {
-      window.location.href = 'index.html';
+      window.location.href = window.location.origin + '/index.html';
     }, 1500);
   } catch (error) {
     console.error('Email sign-in error:', error);
@@ -181,7 +181,7 @@ async function signUpWithEmail(email, password, displayName) {
     
     showSuccess(`Welcome to Wood & Whimsy, ${displayName}!`);
     setTimeout(() => {
-      window.location.href = 'index.html';
+      window.location.href = window.location.origin + '/index.html';
     }, 1500);
   } catch (error) {
     console.error('Email sign-up error:', error);
@@ -218,7 +218,7 @@ async function signInWithApple() {
     
     showSuccess(`Welcome ${result.user.displayName || result.user.email}!`);
     setTimeout(() => {
-      window.location.href = 'index.html';
+      window.location.href = window.location.origin + '/index.html';
     }, 1500);
     
   } catch (error) {
