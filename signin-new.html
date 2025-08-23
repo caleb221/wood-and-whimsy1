@@ -387,7 +387,7 @@
 
       <div class="auth-toggle">
         <span>Don't have an account?</span>
-        <a href="#" onclick="toggleToSignUp()">Sign Up</a>
+        <a href="javascript:void(0)" onclick="toggleToSignUp(); return false;">Sign Up</a>
       </div>
     </div>
   </div>
@@ -436,11 +436,16 @@
           return;
         }
         
+        // Disable button during processing
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Creating Account...';
+        
         // Firebase sign up
         if (typeof firebase !== 'undefined' && firebase.auth) {
           firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((userCredential) => {
               const user = userCredential.user;
+              console.log('User created:', user);
               // Update profile with name
               return user.updateProfile({
                 displayName: name
@@ -455,13 +460,24 @@
             .catch((error) => {
               console.error('Sign up error:', error);
               showMessage('Sign up failed: ' + error.message, 'error');
+              // Re-enable button on error
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Sign Up';
             });
         } else {
-          showMessage('Sign up functionality is being set up', 'error');
+          console.error('Firebase not available:', typeof firebase);
+          showMessage('Firebase authentication not available. Please refresh the page.', 'error');
+          // Re-enable button on error
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Sign Up';
         }
       } else {
         // Handle Sign In
         if (email && password) {
+          // Disable button during processing
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Signing In...';
+          
           if (typeof firebase !== 'undefined' && firebase.auth) {
             firebase.auth().signInWithEmailAndPassword(email, password)
               .then((userCredential) => {
@@ -473,12 +489,24 @@
               .catch((error) => {
                 console.error('Sign in error:', error);
                 showMessage('Sign in failed: ' + error.message, 'error');
+                // Re-enable button on error
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Sign In';
               });
           } else if (typeof signInUser === 'function') {
             signInUser(email, password);
+            // Re-enable button
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Sign In';
           } else {
-            showMessage('Sign in functionality is being set up', 'error');
+            console.error('Firebase not available:', typeof firebase);
+            showMessage('Firebase authentication not available. Please refresh the page.', 'error');
+            // Re-enable button on error
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Sign In';
           }
+        } else {
+          showMessage('Please enter both email and password', 'error');
         }
       }
     });
